@@ -7,26 +7,26 @@ import AISup from '../../components/AISup';
 import CustomSwitch from '../../components/CustomSwitch';
 import { rs } from '../../utils/scaling';
 
-
 const { width } = Dimensions.get('window');
 const OVERLAY_HEIGHT = width * (67 / 393);
 const TABBAR_HEIGHT = 65;
 
-export default function PrivacySafetyScreen() {
+export default function NotificationSettingScreen() {
   const router = useRouter();
 
-  // Privacy States
-  const [isPrivateAccount, setIsPrivateAccount] = useState(true);
-  const [isShowOnlineStatus, setIsShowOnlineStatus] = useState(false);
-  const [isAllowDiscovery, setIsAllowDiscovery] = useState(true);
+  // Activity States
+  const [isNewConnections, setIsNewConnections] = useState(true);
+  const [isLikesReactions, setIsLikesReactions] = useState(true);
+  const [isComments, setIsComments] = useState(false);
+  const [isMentions, setIsMentions] = useState(true);
 
-  // Safety States
-  const [isBlockInappropriate, setIsBlockInappropriate] = useState(true);
-  const [isTwoFactor, setIsTwoFactor] = useState(false);
-  const [isLoginAlerts, setIsLoginAlerts] = useState(true);
+  // App Updates States
+  const [isCommunityUpdates, setIsCommunityUpdates] = useState(false);
+  const [isEventReminders, setIsEventReminders] = useState(true);
+  const [isBeeBuddyTips, setIsBeeBuddyTips] = useState(true);
 
   const renderSwitchRow = (
-    iconSource: any,
+    iconName: keyof typeof Ionicons.glyphMap,
     label: string,
     value: boolean,
     onValueChange: (val: boolean) => void,
@@ -34,7 +34,7 @@ export default function PrivacySafetyScreen() {
   ) => (
     <View style={[styles.row, !isLast && styles.rowBorder]}>
       <View style={styles.rowLeft}>
-        <Image source={iconSource} style={{ width: rs(24), height: rs(24) }} resizeMode="contain" />
+        <Ionicons name={iconName} size={rs(24)} color="#ff7b00" />
         <Text style={styles.rowLabel}>{label}</Text>
       </View>
       <CustomSwitch value={value} onValueChange={onValueChange} />
@@ -61,7 +61,7 @@ export default function PrivacySafetyScreen() {
         <View style={styles.headerTop}>
           <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => router.back()}>
             <Ionicons name="chevron-back" size={rs(12)} color="#111827" style={{ marginTop: rs(12), marginRight: rs(6) }} />
-            <Text style={styles.headerTitle}>Privacy & Safety</Text>
+            <Text style={styles.headerTitle}>Notifications</Text>
           </TouchableOpacity>
           <Image 
             source={require('../../../assets/images/BrandLogo.png')} 
@@ -74,23 +74,24 @@ export default function PrivacySafetyScreen() {
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <View style={styles.contentContainer}>
           
-          {/* Privacy Section */}
+          {/* Activity Section */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Privacy</Text>
+            <Text style={styles.sectionTitle}>Activity</Text>
             <View style={styles.card}>
-              {renderSwitchRow(require('../../../assets/images/lock2.png'), 'Private Account', isPrivateAccount, setIsPrivateAccount)}
-              {renderSwitchRow(require('../../../assets/images/laks.png'), 'Show Online Status', isShowOnlineStatus, setIsShowOnlineStatus)}
-              {renderSwitchRow(require('../../../assets/images/search.png'), 'Allow Profile Discovery', isAllowDiscovery, setIsAllowDiscovery, true)}
+              {renderSwitchRow('person-add-outline', 'New Connections', isNewConnections, setIsNewConnections)}
+              {renderSwitchRow('heart-outline', 'Likes & Reactions', isLikesReactions, setIsLikesReactions)}
+              {renderSwitchRow('chatbubble-outline', 'Comments', isComments, setIsComments)}
+              {renderSwitchRow('at-outline', 'Mentions', isMentions, setIsMentions, true)}
             </View>
           </View>
 
-          {/* Safety Section */}
+          {/* App Updates Section */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Safety</Text>
+            <Text style={styles.sectionTitle}>App Updates</Text>
             <View style={styles.card}>
-              {renderSwitchRow(require('../../../assets/images/sheild.png'), 'Block Inappropriate Content', isBlockInappropriate, setIsBlockInappropriate)}
-              {renderSwitchRow(require('../../../assets/images/key2.png'), 'Two-Factor Authentication', isTwoFactor, setIsTwoFactor)}
-              {renderSwitchRow(require('../../../assets/images/bell2.png'), 'Login Alerts', isLoginAlerts, setIsLoginAlerts, true)}
+              {renderSwitchRow('people-outline', 'Community Updates', isCommunityUpdates, setIsCommunityUpdates)}
+              {renderSwitchRow('calendar-outline', 'Event Reminders', isEventReminders, setIsEventReminders)}
+              {renderSwitchRow('sparkles-outline', 'BeeBuddy Tips', isBeeBuddyTips, setIsBeeBuddyTips, true)}
             </View>
           </View>
 
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     height: OVERLAY_HEIGHT + 90,
     width: '100%',
-    },
+  },
   overlay: {
     position: 'absolute',
     top: 0,
@@ -141,7 +142,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: rs(20),
-    
   },
   headerTitle: {
     fontFamily: 'Dongle_700Bold',
@@ -201,4 +201,3 @@ const styles = StyleSheet.create({
     marginLeft: rs(16),
   },
 });
-

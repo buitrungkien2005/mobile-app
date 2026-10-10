@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, Dimensions, Platform, KeyboardAvoidingView, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, Dimensions, Platform, KeyboardAvoidingView, ImageBackground, Modal } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { rs } from '../../utils/scaling';
@@ -16,16 +16,26 @@ export default function UpPostScreen() {
   
   const [activePrivacy, setActivePrivacy] = useState('Everyone');
   const [isSearchActive, setIsSearchActive] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const toggleSearch = () => {
     setIsSearchActive(!isSearchActive);
   };
 
+  const handlePostSubmit = () => {
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSuccess(true);
+    }, 2000);
+  };
+
   return (
     <View style={styles.container}>
-      <View style={[styles.headerContainer, { height: OVERLAY_HEIGHT }]}>
+      <View style={[styles.headerContainer, { height: OVERLAY_HEIGHT + rs(55) }]}>
         <Image source={require('../../../assets/images/profile_overlay_new.png')} style={[styles.overlay, { position: 'absolute', top: 0, left: 0, height: OVERLAY_HEIGHT }]} resizeMode="cover" />
-        <View style={[styles.headerTop, { paddingTop: rs(65), position: 'relative' }]}>
+        <View style={[styles.headerTop, { paddingTop: rs(75), position: 'relative' }]}>
           <Image source={require('../../../assets/images/BrandLogo.png')} style={styles.logo} resizeMode="contain" />
           
           <View style={styles.headerRightActions}>
@@ -55,15 +65,41 @@ export default function UpPostScreen() {
         </View>
       </View>
 
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
-        <ScrollView style={styles.scrollBody} contentContainerStyle={{ paddingBottom: rs(100) }} showsVerticalScrollIndicator={false}>
+      {isSuccess ? (
+        <View style={styles.successContainer}>
+          <View style={styles.successCard}>
+            <Image source={require('../../../assets/images/Mascot_Frame.png')} style={styles.successIcon} resizeMode="contain" />
+            <Text style={styles.successTitle}>Post Successful!</Text>
+            <Text style={styles.successSubtitle}>
+              Your post has been uploaded and shared publicly.{'\n'}Have fun with your friends!
+            </Text>
+            
+            <TouchableOpacity style={styles.beePointsBtn}>
+              <Image source={require('../../../assets/images/star.png')} style={styles.starIcon} resizeMode="contain" />
+              <Text style={styles.beePointsText}>Earn +10 BeePoints!</Text>
+            </TouchableOpacity>
+          </View>
           
+          <View style={styles.successActions}>
+            <TouchableOpacity style={[styles.actionBtn, styles.primaryActionBtn]} onPress={() => router.push('/(tabs)/view-post')}>
+               <Text style={styles.primaryActionBtnText}>View Post</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.actionBtn} onPress={() => router.push('/(tabs)/home')}>
+               <Text style={styles.actionBtnText}>Back to Home</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : (
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+        <View style={styles.stickyTitleContainer}>
           <Text style={styles.sectionLabel}>Post Title</Text>
           <View style={styles.inputContainer}>
             <TextInput style={styles.textInput} placeholder="Write a title for your post..." placeholderTextColor="#9ca3af" />
           </View>
+        </View>
 
-          <View style={styles.cardGroup}>
+        <ScrollView style={styles.scrollBody} contentContainerStyle={{ paddingBottom: rs(100) }} showsVerticalScrollIndicator={false}>
+          <View style={[styles.cardGroup, { marginTop: rs(4) }]}>
             <View style={styles.mediaAccessCard}>
               <Text style={styles.mediaTitle}>Allow access to your Photos & Videos</Text>
               <Text style={styles.mediaDesc}>To upload photos and videos to your post, allow BeeBuddy to access your device library</Text>
@@ -139,12 +175,25 @@ export default function UpPostScreen() {
             <Text style={styles.uploadText}>Add Photos/Videos</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.submitBtn}>
+          <TouchableOpacity style={styles.submitBtn} onPress={handlePostSubmit}>
             <Text style={styles.submitBtnText}>Post</Text>
           </TouchableOpacity>
 
         </ScrollView>
       </KeyboardAvoidingView>
+      )}
+
+      <Modal visible={isSubmitting} transparent={true} animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.loadingCard}>
+            <Image source={require('../../../assets/images/Spinner_Box.png')} style={styles.spinnerIcon} resizeMode="contain" />
+            <Text style={styles.loadingText}>Posting...</Text>
+            <Text style={styles.loadingSubtitle}>
+              Please wait while your post is being{'\n'}uploaded...
+            </Text>
+          </View>
+        </View>
+      </Modal>
 
       <AISup />
       <TabBarMenu activeTab="up-post" />
@@ -238,20 +287,29 @@ const styles = StyleSheet.create({
     width: rs(40),
     height: rs(40),
     borderRadius: rs(20),
-    marginLeft: rs(10),
+    backgroundColor: '#ffb703',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderWidth: 2,
     borderColor: '#ffb703',
     overflow: 'hidden',
-    backgroundColor: '#fff',
+    marginLeft: rs(10),
   },
   headerAvatar: {
-    width: '100%',
-    height: '100%',
+    width: rs(36),
+    height: rs(36),
+    borderRadius: rs(18),
+  },
+  stickyTitleContainer: {
+    paddingHorizontal: rs(20),
+    backgroundColor: '#f9fafb',
+    paddingBottom: rs(10),
+    zIndex: 1,
   },
   scrollBody: {
     flex: 1,
     paddingHorizontal: rs(20),
-    paddingTop: rs(20),
+    paddingTop: rs(10),
   },
   sectionLabel: {
     fontFamily: 'AfacadFlux_600SemiBold',
@@ -452,6 +510,133 @@ const styles = StyleSheet.create({
   submitBtnText: {
     fontFamily: 'AfacadFlux_700Bold',
     fontSize: rs(16),
+    color: '#fff',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingCard: {
+    backgroundColor: '#fff',
+    borderRadius: rs(24),
+    paddingVertical: rs(40),
+    paddingHorizontal: rs(30),
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: width - rs(80),
+    elevation: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.15,
+    shadowRadius: 15,
+  },
+  spinnerIcon: {
+    width: rs(80),
+    height: rs(80),
+    marginBottom: rs(20),
+  },
+  loadingText: {
+    fontFamily: 'AfacadFlux_700Bold',
+    fontSize: rs(22),
+    color: '#000',
+    marginBottom: rs(8),
+  },
+  loadingSubtitle: {
+    fontFamily: 'AfacadFlux_400Regular',
+    fontSize: rs(15),
+    color: '#8b8b8b',
+    textAlign: 'center',
+    lineHeight: rs(22),
+  },
+  successContainer: {
+    flex: 1,
+    alignItems: 'center',
+    paddingHorizontal: rs(20),
+    paddingTop: rs(30),
+  },
+  successCard: {
+    backgroundColor: '#fff',
+    borderRadius: rs(24),
+    borderWidth: 1,
+    borderColor: '#fef08a',
+    paddingVertical: rs(30),
+    paddingHorizontal: rs(20),
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: rs(30),
+    shadowColor: '#f59e0b',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 3,
+  },
+  successIcon: {
+    width: rs(100),
+    height: rs(100),
+    marginBottom: rs(20),
+  },
+  successTitle: {
+    fontFamily: 'AfacadFlux_700Bold',
+    fontSize: rs(28),
+    color: '#000',
+    marginBottom: rs(12),
+  },
+  successSubtitle: {
+    fontFamily: 'AfacadFlux_400Regular',
+    fontSize: rs(14),
+    color: '#6b7280',
+    marginBottom: rs(24),
+    textAlign: 'center',
+    lineHeight: rs(20),
+  },
+  beePointsBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#fcd34d',
+    paddingVertical: rs(8),
+    paddingHorizontal: rs(16),
+    borderRadius: rs(20),
+  },
+  starIcon: {
+    width: rs(20),
+    height: rs(20),
+    marginRight: rs(8),
+  },
+  beePointsText: {
+    fontFamily: 'Inter_700Bold',
+    fontSize: rs(16),
+    color: '#f59e0b',
+  },
+  successActions: {
+    width: '100%',
+    gap: rs(12),
+  },
+  actionBtn: {
+    width: '100%',
+    height: rs(50),
+    borderRadius: rs(25),
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#f59e0b',
+    backgroundColor: '#fff',
+  },
+  actionBtnText: {
+    fontFamily: 'AfacadFlux_600SemiBold',
+    fontSize: rs(18),
+    color: '#f59e0b',
+  },
+  primaryActionBtn: {
+    backgroundColor: '#f59e0b',
+    borderWidth: 0,
+  },
+  primaryActionBtnText: {
+    fontFamily: 'AfacadFlux_600SemiBold',
+    fontSize: rs(18),
     color: '#fff',
   },
 });

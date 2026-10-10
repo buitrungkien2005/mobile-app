@@ -5,7 +5,7 @@ import { useRouter } from 'expo-router';
 import { rs } from '../utils/scaling';
 
 const { width } = Dimensions.get('window');
-const TABBAR_HEIGHT = 65;
+const TABBAR_HEIGHT = 55;
 
 interface GuestTabBarMenuProps {
   activeTab?: 'home' | 'discover' | 'messages' | 'profile' | 'none';

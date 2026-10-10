@@ -73,7 +73,7 @@ export default function ProfileScreen() {
           </View>
 
           {/* Nút thao tác */}
-          <TouchableOpacity style={styles.actionBtn}>
+          <TouchableOpacity style={styles.actionBtn} onPress={() => router.push('/(tabs)/profile-info')}>
             <Text style={styles.actionBtnText}>Edit Profile</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.actionBtn} onPress={() => router.push('/(tabs)/profile-setting')}>

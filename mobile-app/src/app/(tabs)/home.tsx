@@ -192,9 +192,9 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       {/* HEADER SECTION */}
-      <View style={[styles.headerContainer, { height: OVERLAY_HEIGHT + rs(75) }]}>
+      <View style={[styles.headerContainer, { height: OVERLAY_HEIGHT + rs(65) }]}>
         <Image source={require('../../../assets/images/profile_overlay_new.png')} style={[styles.overlay, { position: 'absolute', top: 0, left: 0, height: OVERLAY_HEIGHT }]} resizeMode="cover" />
-        <View style={[styles.headerTop, { paddingTop: rs(65), position: 'relative' }]}>
+        <View style={[styles.headerTop, { paddingTop: rs(75), position: 'relative' }]}>
           <Image source={require('../../../assets/images/BrandLogo.png')} style={styles.logo} resizeMode="contain" />
           
           <View style={styles.headerRightActions}>
@@ -515,6 +515,8 @@ const styles = StyleSheet.create({
   headerContainer: {
     width: '100%',
     height: OVERLAY_HEIGHT,
+    zIndex: 1,
+    elevation: 1,
   },
   overlay: {
     width: '100%',

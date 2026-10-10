@@ -137,7 +137,7 @@ export default function NotificationsScreen() {
           </>
         ) : (
           <View style={styles.emptyContainer}>
-            <Image source={require('../../../assets/images/empty_notifications.gif')} style={styles.emptyGif} resizeMode="contain" />
+            <Image source={require('../../../assets/images/empty_notifications_new.gif')} style={styles.emptyGif} resizeMode="contain" />
             <Text style={styles.emptyTitle}>No notifications yet</Text>
             <Text style={styles.emptySubtext}>
               When you get updates, connection alerts,{"\n"}and reminders, they will appear here!
@@ -175,8 +175,8 @@ const styles = StyleSheet.create({
     marginBottom: rs(20),
   },
   pageTitle: {
-    fontFamily: 'AfacadFlux_700Bold',
-    fontSize: rs(24),
+    fontFamily: 'Dongle_700Bold',
+    fontSize: rs(44),
     color: '#111827',
   },
   markReadText: {
@@ -294,21 +294,21 @@ const styles = StyleSheet.create({
   emptyContainer: {
     alignItems: 'center',
     paddingHorizontal: rs(40),
-    marginTop: rs(30),
+    marginTop: rs(80),
   },
   emptyGif: {
-    width: rs(400),
-    height: rs(300),
+    width: rs(200),
+    height: rs(210),
     marginBottom: rs(20),
   },
   emptyTitle: {
-    fontFamily: 'AfacadFlux_700Bold',
+    fontFamily: 'AfacadFlux_600SemiBold',
     fontSize: rs(20),
     color: '#111827',
     marginBottom: rs(10),
   },
   emptySubtext: {
-    fontFamily: 'AfacadFlux_400Regular',
+    fontFamily: 'AfacadFlux_600SemiBold',
     fontSize: rs(14),
     color: '#6b7280',
     textAlign: 'center',

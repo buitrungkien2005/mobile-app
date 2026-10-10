@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, Dimensions, TouchableOpacity, Modal, TouchableWithoutFeedback, Animated, LayoutAnimation, Platform, UIManager } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -363,7 +363,7 @@ export default function ProfileInfoScreen() {
               {/* Dropdown Menu Post */}
               {openPostMenuId === 'post1' && (
                 <View style={styles.postDropdownMenu}>
-                  <TouchableOpacity style={styles.postDropdownItem}>
+                  <TouchableOpacity style={styles.postDropdownItem} onPress={() => router.push('/(tabs)/edit-post?postId=1')}>
                     <Ionicons name="chatbubble-outline" size={rs(18)} color="#111827" style={{ textShadowColor: '#111827', textShadowRadius: 0.5, textShadowOffset: { width: rs(0.5), height: rs(0.5) } }} />
                     <Text style={styles.postDropdownText}>Edit post</Text>
                   </TouchableOpacity>
@@ -416,7 +416,7 @@ export default function ProfileInfoScreen() {
               {/* Dropdown Menu Post 2 */}
               {openPostMenuId === 'post2' && (
                 <View style={styles.postDropdownMenu}>
-                  <TouchableOpacity style={styles.postDropdownItem}>
+                  <TouchableOpacity style={styles.postDropdownItem} onPress={() => router.push('/(tabs)/edit-post?postId=2')}>
                     <Ionicons name="chatbubble-outline" size={rs(18)} color="#111827" style={{ textShadowColor: '#111827', textShadowRadius: 0.5, textShadowOffset: { width: rs(0.5), height: rs(0.5) } }} />
                     <Text style={styles.postDropdownText}>Edit post</Text>
                   </TouchableOpacity>
@@ -466,6 +466,9 @@ export default function ProfileInfoScreen() {
 
       {/* Floating AI Bee */}
       <AISup isGuest={false} />
+
+      {/* Comment Modal */}
+      <CommentModal visible={isCommentModalVisible} onClose={closeCommentModal} />
 
       {/* TabBar */}
       <TabBarMenu activeTab="profile" />

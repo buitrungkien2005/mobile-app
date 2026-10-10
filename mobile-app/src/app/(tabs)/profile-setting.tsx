@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -94,7 +94,7 @@ export default function ProfileSettingScreen() {
           <View style={styles.card}>
             <TouchableOpacity 
               style={styles.menuItem}
-              onPress={() => router.push('/(tabs)/notifications')}
+              onPress={() => router.push('/(tabs)/notification-setting')}
             >
               <View style={styles.menuLeft}>
                 <Image source={require('../../../assets/images/bell.png')} style={{ width: rs(20), height: rs(20) }} resizeMode="contain" />
@@ -143,7 +143,7 @@ export default function ProfileSettingScreen() {
             </TouchableOpacity>
             <View style={styles.divider} />
             
-            <TouchableOpacity style={styles.menuItem}>
+            <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/(tabs)/about-beebuddy')}>
               <View style={styles.menuLeft}>
                 <Image source={require('../../../assets/images/info.png')} style={{ width: rs(20), height: rs(20) }} resizeMode="contain" />
                 <Text style={styles.menuText}>About BeeBuddy</Text>

@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { rs } from '../utils/scaling';
 
 const { width } = Dimensions.get('window');
-const TABBAR_HEIGHT = 65;
+const TABBAR_HEIGHT = 55;
 
 interface TabBarMenuProps {
   activeTab?: 'home' | 'discover' | 'messages' | 'profile' | 'up-post' | 'none';
@@ -33,7 +33,7 @@ export default function TabBarMenu({ activeTab }: TabBarMenuProps) {
     >
       
       {/* Home Tab */}
-      <TouchableOpacity style={styles.tabItem} onPress={() => activeTab !== 'home' && router.replace('/(tabs)/home')}>
+      <TouchableOpacity style={styles.tabItem} onPress={() => pathname !== '/home' && router.replace('/(tabs)/home')}>
         {activeTab === 'home' ? (
           <View style={styles.homeActiveContainer}>
             <Image source={require('../../assets/images/TabItem-Home.png')} style={{ width: rs(26), height: rs(26), tintColor: '#fff' }} resizeMode="contain" />
@@ -59,14 +59,20 @@ export default function TabBarMenu({ activeTab }: TabBarMenuProps) {
         style={styles.tabItemAdd} 
         onPress={() => activeTab !== 'up-post' && router.replace('/(tabs)/up-post')}
       >
-        <View style={[styles.addBtn, activeTab === 'up-post' && { backgroundColor: '#ffb703' }]}>
-          <Ionicons name="add" size={rs(38)} color={activeTab === 'up-post' ? '#000' : '#ffb703'} />
+        <View style={activeTab === 'up-post' ? styles.addBtnActive : styles.addBtn}>
+          <Ionicons name="add" size={activeTab === 'up-post' ? rs(22) : rs(26)} color="#fff" />
         </View>
       </TouchableOpacity>
 
       {/* Messages Tab */}
-      <TouchableOpacity style={styles.tabItem}>
-        <Image source={require('../../assets/images/message-square.png')} style={{ width: rs(26), height: rs(26) }} resizeMode="contain" />
+      <TouchableOpacity style={styles.tabItem} onPress={() => activeTab !== 'messages' && router.replace('/(tabs)/messages')}>
+        {activeTab === 'messages' ? (
+          <View style={styles.homeActiveContainer}>
+            <Image source={require('../../assets/images/message-square.png')} style={{ width: rs(26), height: rs(26), tintColor: '#fff' }} resizeMode="contain" />
+          </View>
+        ) : (
+          <Image source={require('../../assets/images/message-square.png')} style={{ width: rs(26), height: rs(26) }} resizeMode="contain" />
+        )}
       </TouchableOpacity>
 
       {/* Profile Tab */}
@@ -109,9 +115,17 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   addBtn: {
-    width: rs(44),
-    height: rs(44),
-    borderRadius: rs(22),
+    width: rs(36),
+    height: rs(36),
+    borderRadius: rs(18),
+    backgroundColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addBtnActive: {
+    width: rs(48),
+    height: rs(30),
+    borderRadius: rs(15),
     backgroundColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
