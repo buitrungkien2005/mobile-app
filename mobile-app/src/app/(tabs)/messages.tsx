@@ -12,13 +12,19 @@ const OVERLAY_HEIGHT = width * (67 / 393);
 const TABBAR_HEIGHT = 65;
 
 const allConnections = [
+<<<<<<< HEAD
   { id: '1', name: 'Priya Sharma', status: 'Active 5m ago', mutual: '12 mutual connections', avatar: require('../../../assets/images/Avatar_MinhTran.png'), hasFlag: false },
   { id: '2', name: 'Jake Miller', status: 'Active 2h ago', mutual: '4 mutual connections', avatar: require('../../../assets/images/Avatar_SoraPark.png'), hasFlag: false },
+=======
+  { id: '1', name: 'Priya Sharma', status: 'Active 5m ago', mutual: '12 mutual connections', avatar: require('../../../assets/images/Priya_Sharma.png'), hasFlag: false },
+  { id: '2', name: 'Jake Miller', status: 'Active 2h ago', mutual: '4 mutual connections', avatar: require('../../../assets/images/Jake_Miller.png'), hasFlag: false },
+>>>>>>> 277c38f (Fix giao dien app)
   { id: '3', name: 'Linh Nguyen', status: 'Active yesterday', mutual: '8 mutual connections', avatar: require('../../../assets/images/Avatar_YukiTanaka.png'), hasFlag: false },
   { id: '4', name: 'Minh Tran', status: 'Active now', mutual: '15 mutual connections', avatar: require('../../../assets/images/MinhTran_Avatar.png'), hasFlag: true }
 ];
 
 const closeCircleData = [
+<<<<<<< HEAD
   { id: 'c1', name: 'Priya Sharma', handle: '@priya_sharma', status: 'Active 5m ago', mutual: '11 mutual connections', avatar: require('../../../assets/images/Priya.png') },
   { id: 'c2', name: 'Minh Tran', handle: '@minh_saigon', status: 'Active now', mutual: '15 mutual connections', avatar: require('../../../assets/images/MinTran.png'), hasFlag: true },
   { id: 'c3', name: 'Jake Miller', handle: '@jake_m', status: 'Active 2h ago', mutual: '4 mutual connections', avatar: require('../../../assets/images/Jake.png') }
@@ -26,11 +32,21 @@ const closeCircleData = [
 
 const connectData = [
   { id: 'n1', name: 'Jake Miller', title: 'UI/UX Designer', status: 'Active 2h ago', mutual: '4 mutual connections', avatar: require('../../../assets/images/Jake2.png'), action: 'Connect' },
+=======
+  { id: '1', name: 'Priya Sharma', handle: '@priya_sharma', status: 'Active 5m ago', mutual: '11 mutual connections', avatar: require('../../../assets/images/Priya.png') },
+  { id: '4', name: 'Minh Tran', handle: '@minh_saigon', status: 'Active now', mutual: '15 mutual connections', avatar: require('../../../assets/images/MinTran.png'), hasFlag: true },
+  { id: '2', name: 'Jake Miller', handle: '@jake_m', status: 'Active 2h ago', mutual: '4 mutual connections', avatar: require('../../../assets/images/Jake.png') }
+];
+
+const connectData = [
+  { id: '2', name: 'Jake Miller', title: 'UI/UX Designer', status: 'Active 2h ago', mutual: '4 mutual connections', avatar: require('../../../assets/images/Jake2.png'), action: 'Connect' },
+>>>>>>> 277c38f (Fix giao dien app)
   { id: 'n2', name: 'Elena Rostova', title: 'iOS Developer', status: 'Active 5m ago', mutual: '9 mutual connections', avatar: require('../../../assets/images/Elena.png'), action: 'Requested' },
   { id: 'n3', name: 'Marcus Aurelius', title: 'Philosopher & Writer', status: 'Active now', mutual: '14 mutual connections', avatar: require('../../../assets/images/Marcus.png'), action: 'Accept' }
 ];
 
 const attendeesData = [
+<<<<<<< HEAD
   { id: 'a1', name: 'Sophia Martinez', desc: 'Tech Honey Mixer', date: 'Oct 12, 2026', avatar: require('../../../assets/images/Sophia.png'), statusType: 'date' },
   { id: 'a2', name: 'Kenji Sato', desc: 'Product Beehive Workshop', date: 'Oct 10, 2026', avatar: require('../../../assets/images/Kenji.png'), statusType: 'date' },
   { id: 'a3', name: 'Priya Sharma', desc: '@priyasharma', badge: 'Going', avatar: require('../../../assets/images/Avatar_MinhTran.png'), statusType: 'badge' },
@@ -54,6 +70,31 @@ const onlineFriendsData = [
 const offlineFriendsData = [
   { id: 'f1', name: 'Jake Miller', status: 'Last seen 2h ago', avatar: require('../../../assets/images/Avatar_SoraPark.png') },
   { id: 'f2', name: 'Linh Nguyen', status: 'Last seen yesterday', avatar: require('../../../assets/images/Avatar_YukiTanaka.png') },
+=======
+  { id: 'a1', profileId: 'a1', name: 'Sophia Martinez', desc: 'Tech Honey Mixer', date: 'Oct 12, 2026', avatar: require('../../../assets/images/Sophia_Martinez.png'), statusType: 'date' },
+  { id: 'a2', profileId: 'a2', name: 'Kenji Sato', desc: 'Product Beehive Workshop', date: 'Oct 10, 2026', avatar: require('../../../assets/images/Kenji_Sato.png'), statusType: 'date' },
+  { id: 'a3', profileId: '1', name: 'Priya Sharma', desc: '@priyasharma', badge: 'Going', avatar: require('../../../assets/images/Priya_Sharma.png'), statusType: 'badge' },
+  { id: 'a4', profileId: '2', name: 'Jake Miller', desc: '@jakemiller', badge: 'Maybe', avatar: require('../../../assets/images/Jake_Miller.png'), statusType: 'badge' },
+  { id: 'a5', profileId: '3', name: 'Linh Nguyen', desc: '@linhnguyen', badge: 'Going', avatar: require('../../../assets/images/Avatar_YukiTanaka.png'), statusType: 'badge' },
+  { id: 'a6', profileId: '4', name: 'Minh Tran', hasFlag: true, desc: '@minhtran🇻🇳', badge: 'Going', avatar: require('../../../assets/images/MinhTran_Avatar.png'), statusType: 'badge' },
+  { id: 'a7', profileId: 'a7', name: 'Siddharth Sen', desc: '@siddharthsen', badge: "Can't Go", avatar: require('../../../assets/images/Siddharth_Sen.png'), statusType: 'badge' }
+];
+
+const messageRequestsData = [
+  { id: 'r1', name: 'Amina Mansoor', time: '2h ago', message: "Hey! Saw you at the design workshop last night. Let's exch...", avatar: require('../../../assets/images/Amina_Mansoor.png') },
+  { id: 'r2', name: 'David Chen', time: '1d ago', message: "Hi Priya! I am also in your close circle through Jake. Let's ca...", avatar: require('../../../assets/images/David_Chen.png') },
+  { id: 'r3', name: 'Sonia Petrova', time: '3d ago', message: 'Hey, do you know if there are any slots left for the Honey-Ta...', avatar: require('../../../assets/images/Sonia_Petrova.png') },
+];
+
+const onlineFriendsData = [
+  { id: 'o1', profileId: '1', name: 'Priya Sharma', status: 'Active now', avatar: require('../../../assets/images/Priya_Sharma.png') },
+  { id: 'o2', profileId: '4', name: 'Minh Tran', hasFlag: true, status: 'Active now', avatar: require('../../../assets/images/MinhTran_Avatar.png') },
+];
+
+const offlineFriendsData = [
+  { id: 'f1', profileId: '2', name: 'Jake Miller', status: 'Last seen 2h ago', avatar: require('../../../assets/images/Jake_Miller.png') },
+  { id: 'f2', profileId: '3', name: 'Linh Nguyen', status: 'Last seen yesterday', avatar: require('../../../assets/images/LinhNguyen.png') },
+>>>>>>> 277c38f (Fix giao dien app)
 ];
 
 let lastActiveChip = 'All';
@@ -82,6 +123,65 @@ export default function MessagesScreen() {
 
   const renderAll = () => (
     <View style={styles.connectionsList}>
+<<<<<<< HEAD
+=======
+      <TouchableOpacity 
+        style={styles.createGroupChatBtn}
+        onPress={() => router.push('/(tabs)/add-to-group' as any)}
+        activeOpacity={0.85}
+      >
+        <Ionicons name="add" size={rs(18)} color="#ffffff" style={{ marginRight: rs(4) }} />
+        <Text style={styles.createGroupChatBtnText}>Create group chat</Text>
+      </TouchableOpacity>
+
+      {/* Group Chat Item: Weekend Crew */}
+      <View style={[styles.userCard, styles.groupChatCard]}>
+        <TouchableOpacity 
+          style={styles.userInfoLeft} 
+          onPress={() => router.push({ pathname: '/(tabs)/group-chat', params: { groupName: 'Weekend Crew' } } as any)}
+          activeOpacity={0.8}
+        >
+          {/* Group Avatars Facepile Container */}
+          <View style={styles.groupAvatarContainer}>
+            <Image 
+              source={require('../../../assets/images/Priya_Sharma.png')} 
+              style={[styles.groupMiniAvatar, { top: 0, left: 0, zIndex: 3 }]} 
+            />
+            <Image 
+              source={require('../../../assets/images/Jake_Miller.png')} 
+              style={[styles.groupMiniAvatar, { top: 0, left: rs(16), zIndex: 2 }]} 
+            />
+            <Image 
+              source={require('../../../assets/images/Avatar_YukiTanaka.png')} 
+              style={[styles.groupMiniAvatar, { top: rs(12), left: rs(8), zIndex: 4 }]} 
+            />
+          </View>
+
+          <View style={styles.userDetails}>
+            <View style={styles.nameRow}>
+              <Text style={styles.userName}>Weekend Crew</Text>
+              <View style={styles.groupBadge}>
+                <Text style={styles.groupBadgeText}>Group</Text>
+              </View>
+            </View>
+            <Text style={styles.userStatus} numberOfLines={1}>
+              Linh: Count me in! I'll bring some iced matcha...
+            </Text>
+            <Text style={styles.userMutual}>3 members · Active now</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.messageBtn}
+          onPress={() => router.push({ pathname: '/(tabs)/group-chat', params: { groupName: 'Weekend Crew' } } as any)}
+          activeOpacity={0.8}
+        >
+          <Ionicons name="chatbubbles-outline" size={rs(16)} color="#ff9800" style={{ marginRight: rs(4) }} />
+          <Text style={styles.messageBtnText}>Message</Text>
+        </TouchableOpacity>
+      </View>
+
+>>>>>>> 277c38f (Fix giao dien app)
       {allConnections.map(user => (
         <View key={user.id} style={styles.userCard}>
           <TouchableOpacity 
@@ -123,7 +223,14 @@ export default function MessagesScreen() {
 
       {closeCircleData.map(user => (
         <View key={user.id} style={styles.userCard}>
+<<<<<<< HEAD
           <View style={styles.userInfoLeft}>
+=======
+          <TouchableOpacity 
+            style={styles.userInfoLeft}
+            onPress={() => router.push({ pathname: '/(tabs)/friend-profile', params: { id: user.id } })}
+          >
+>>>>>>> 277c38f (Fix giao dien app)
             <Image source={user.avatar} style={styles.avatarGreenRing} />
             <View style={styles.userDetails}>
               <View style={styles.nameRow}>
@@ -134,15 +241,30 @@ export default function MessagesScreen() {
               <Text style={styles.userStatus}>{user.status}</Text>
               <Text style={styles.userMutual}>{user.mutual}</Text>
             </View>
+<<<<<<< HEAD
           </View>
           <TouchableOpacity style={styles.messageBtn}>
+=======
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.messageBtn}
+            onPress={() => router.push({ pathname: '/(tabs)/chat', params: { id: user.id } })}
+          >
+>>>>>>> 277c38f (Fix giao dien app)
             <Ionicons name="chatbubble-outline" size={rs(16)} color="#ff9800" style={{ marginRight: rs(4) }} />
             <Text style={styles.messageBtnText}>Message</Text>
           </TouchableOpacity>
         </View>
       ))}
 
+<<<<<<< HEAD
       <TouchableOpacity style={styles.addCloseCircleWrapper}>
+=======
+      <TouchableOpacity 
+        style={styles.addCloseCircleWrapper}
+        onPress={() => router.push('/(tabs)/discover')}
+      >
+>>>>>>> 277c38f (Fix giao dien app)
         <LinearGradient
           colors={['#ffb800', '#ff9800']}
           style={styles.addCloseCircleBtn}
@@ -159,7 +281,14 @@ export default function MessagesScreen() {
     <View style={styles.connectionsList}>
       {connectData.map(user => (
         <View key={user.id} style={styles.userCard}>
+<<<<<<< HEAD
           <View style={styles.userInfoLeft}>
+=======
+          <TouchableOpacity 
+            style={styles.userInfoLeft}
+            onPress={() => router.push({ pathname: '/(tabs)/friend-profile', params: { id: user.id } })}
+          >
+>>>>>>> 277c38f (Fix giao dien app)
             <Image source={user.avatar} style={styles.avatar} />
             <View style={styles.userDetails}>
               <Text style={styles.userName}>{user.name}</Text>
@@ -169,7 +298,11 @@ export default function MessagesScreen() {
                 <Text style={styles.jobBadgeText}>{user.title}</Text>
               </View>
             </View>
+<<<<<<< HEAD
           </View>
+=======
+          </TouchableOpacity>
+>>>>>>> 277c38f (Fix giao dien app)
           <View style={styles.actionCol}>
             {user.action === 'Connect' && (
               <TouchableOpacity style={[styles.actionBtn, styles.actionBtnSolid]}>
@@ -182,15 +315,33 @@ export default function MessagesScreen() {
               </TouchableOpacity>
             )}
             {user.action === 'Accept' && (
+<<<<<<< HEAD
               <View style={styles.actionRow}>
                 <TouchableOpacity style={[styles.actionBtn, styles.actionBtnSolid, { flex: 1, marginRight: rs(4) }]}>
                   <Text style={[styles.actionBtnText, styles.actionBtnTextSolid]}>Accept</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.actionBtn, styles.actionBtnOutlineGray, { flex: 1, marginLeft: rs(4) }]}>
+=======
+              <View style={[styles.actionRow, { marginBottom: rs(8) }]}>
+                <TouchableOpacity style={[styles.actionBtn, styles.actionBtnSolid, { flex: 1, marginRight: rs(4), marginBottom: 0 }]}>
+                  <Text style={[styles.actionBtnText, styles.actionBtnTextSolid]}>Accept</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.actionBtn, styles.actionBtnOutlineGray, { flex: 1, marginLeft: rs(4), marginBottom: 0 }]}>
+>>>>>>> 277c38f (Fix giao dien app)
                   <Text style={[styles.actionBtnText, styles.actionBtnTextGray]}>Decline</Text>
                 </TouchableOpacity>
               </View>
             )}
+<<<<<<< HEAD
+=======
+            <TouchableOpacity 
+              style={[styles.messageBtn, { width: '100%', justifyContent: 'center' }]}
+              onPress={() => router.push({ pathname: '/(tabs)/chat', params: { id: user.id } })}
+            >
+              <Ionicons name="chatbubble-outline" size={rs(16)} color="#ff9800" style={{ marginRight: rs(4) }} />
+              <Text style={styles.messageBtnText}>Message</Text>
+            </TouchableOpacity>
+>>>>>>> 277c38f (Fix giao dien app)
           </View>
         </View>
       ))}
@@ -210,7 +361,11 @@ export default function MessagesScreen() {
         </View>
         <View style={styles.attendeesStatBox}>
           <Text style={[styles.attendeesStatNumber, { color: '#ef4444' }]}>2</Text>
+<<<<<<< HEAD
           <Text style={styles.attendeesStatLabel}>Can\'t Go</Text>
+=======
+          <Text style={styles.attendeesStatLabel}>{"Can't Go"}</Text>
+>>>>>>> 277c38f (Fix giao dien app)
         </View>
       </View>
 
@@ -248,7 +403,15 @@ export default function MessagesScreen() {
       <Text style={styles.sectionTitle}>Recent Event Attendees</Text>
 
       {attendeesData.map(user => (
+<<<<<<< HEAD
         <View key={user.id} style={styles.userCard}>
+=======
+        <TouchableOpacity 
+          key={user.id} 
+          style={styles.userCard}
+          onPress={() => router.push({ pathname: '/(tabs)/friend-profile', params: { id: user.profileId } })}
+        >
+>>>>>>> 277c38f (Fix giao dien app)
           <View style={styles.userInfoLeft}>
             <Image source={user.avatar} style={styles.avatar} />
             <View style={styles.userDetails}>
@@ -274,7 +437,11 @@ export default function MessagesScreen() {
               ]}>{user.badge}</Text>
             </View>
           )}
+<<<<<<< HEAD
         </View>
+=======
+        </TouchableOpacity>
+>>>>>>> 277c38f (Fix giao dien app)
       ))}
     </View>
   );
@@ -283,13 +450,24 @@ export default function MessagesScreen() {
     <View style={styles.connectionsList}>
       <View style={styles.requestBanner}>
         <Text style={styles.requestBannerText}>
+<<<<<<< HEAD
           These people aren\'t in your connections yet. Accepting a request lets them message you.
+=======
+          {"These people aren't in your connections yet. Accepting a request lets them message you."}
+>>>>>>> 277c38f (Fix giao dien app)
         </Text>
       </View>
 
       {messageRequestsData.map(user => (
         <View key={user.id} style={styles.requestCard}>
+<<<<<<< HEAD
           <View style={styles.requestHeader}>
+=======
+          <TouchableOpacity 
+            style={styles.requestHeader}
+            onPress={() => router.push({ pathname: '/(tabs)/friend-profile', params: { id: user.id } })}
+          >
+>>>>>>> 277c38f (Fix giao dien app)
             <View style={styles.requestHeaderLeft}>
               <Image source={user.avatar} style={styles.requestAvatar} />
               <View>
@@ -298,6 +476,7 @@ export default function MessagesScreen() {
               </View>
             </View>
             <Text style={styles.requestTime}>{user.time}</Text>
+<<<<<<< HEAD
           </View>
           
           <View style={styles.requestPreview}>
@@ -309,6 +488,28 @@ export default function MessagesScreen() {
               <Text style={styles.reqBtnTextAccept}>Accept</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.reqBtn, styles.reqBtnDecline]}>
+=======
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.requestPreview}
+            onPress={() => router.push({ pathname: '/(tabs)/friend-profile', params: { id: user.id } })}
+          >
+            <Text style={styles.requestPreviewText} numberOfLines={1}>{user.message}</Text>
+          </TouchableOpacity>
+
+          <View style={styles.requestActions}>
+            <TouchableOpacity 
+              style={[styles.reqBtn, styles.reqBtnAccept]}
+              onPress={() => router.push({ pathname: '/(tabs)/friend-profile', params: { id: user.id } })}
+            >
+              <Text style={styles.reqBtnTextAccept}>Accept</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={[styles.reqBtn, styles.reqBtnDecline]}
+              onPress={() => router.push({ pathname: '/(tabs)/friend-profile', params: { id: user.id } })}
+            >
+>>>>>>> 277c38f (Fix giao dien app)
               <Text style={styles.reqBtnTextDecline}>Decline</Text>
             </TouchableOpacity>
           </View>
@@ -323,7 +524,14 @@ export default function MessagesScreen() {
       
       {onlineFriendsData.map(user => (
         <View key={user.id} style={styles.userCard}>
+<<<<<<< HEAD
           <View style={styles.activityInfoLeft}>
+=======
+          <TouchableOpacity 
+            style={styles.activityInfoLeft}
+            onPress={() => router.push({ pathname: '/(tabs)/friend-profile', params: { id: user.profileId } })}
+          >
+>>>>>>> 277c38f (Fix giao dien app)
             <View style={styles.avatarContainer}>
               <Image source={user.avatar} style={styles.activityAvatar} />
               <View style={styles.onlineDot} />
@@ -335,8 +543,16 @@ export default function MessagesScreen() {
               </View>
               <Text style={styles.activityUserStatus}>{user.status}</Text>
             </View>
+<<<<<<< HEAD
           </View>
           <TouchableOpacity style={styles.activityMessageBtn}>
+=======
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.activityMessageBtn}
+            onPress={() => router.push({ pathname: '/(tabs)/chat', params: { id: user.profileId } })}
+          >
+>>>>>>> 277c38f (Fix giao dien app)
             <Image source={require('../../../assets/images/message-circle.png')} style={styles.activityMessageIcon} />
             <Text style={styles.activityMessageBtnText}>Message</Text>
           </TouchableOpacity>
@@ -347,7 +563,14 @@ export default function MessagesScreen() {
       
       {offlineFriendsData.map(user => (
         <View key={user.id} style={styles.userCard}>
+<<<<<<< HEAD
           <View style={styles.activityInfoLeft}>
+=======
+          <TouchableOpacity 
+            style={styles.activityInfoLeft}
+            onPress={() => router.push({ pathname: '/(tabs)/friend-profile', params: { id: user.profileId } })}
+          >
+>>>>>>> 277c38f (Fix giao dien app)
             <View style={styles.avatarContainer}>
               <Image source={user.avatar} style={styles.activityAvatar} />
               <View style={styles.offlineDot} />
@@ -356,8 +579,16 @@ export default function MessagesScreen() {
               <Text style={styles.activityUserName}>{user.name}</Text>
               <Text style={styles.activityUserStatusGray}>{user.status}</Text>
             </View>
+<<<<<<< HEAD
           </View>
           <TouchableOpacity style={styles.activityMessageBtn}>
+=======
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.activityMessageBtn}
+            onPress={() => router.push({ pathname: '/(tabs)/chat', params: { id: user.profileId } })}
+          >
+>>>>>>> 277c38f (Fix giao dien app)
             <Image source={require('../../../assets/images/message-circle.png')} style={styles.activityMessageIcon} />
             <Text style={styles.activityMessageBtnText}>Message</Text>
           </TouchableOpacity>
@@ -421,8 +652,14 @@ export default function MessagesScreen() {
 
       </ScrollView>
 
+<<<<<<< HEAD
       <AISup isGuest={false} />
       <TabBarMenu activeTab="messages" />
+=======
+      <TabBarMenu activeTab="messages" />
+
+      <AISup isGuest={false} />
+>>>>>>> 277c38f (Fix giao dien app)
     </View>
   );
 }
@@ -444,6 +681,54 @@ const styles = StyleSheet.create({
   chipText: { fontFamily: 'Dongle_700Bold', fontSize: rs(24), color: '#6b7280', marginTop: rs(2) },
   chipTextActive: { color: '#ffffff' },
   connectionsList: { paddingHorizontal: rs(20), gap: rs(16) },
+<<<<<<< HEAD
+=======
+  createGroupChatBtn: {
+    backgroundColor: '#ffbb00',
+    borderRadius: rs(24),
+    paddingVertical: rs(10),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: rs(2),
+  },
+  createGroupChatBtnText: {
+    fontFamily: 'AfacadFlux_700Bold',
+    fontSize: rs(15),
+    color: '#ffffff',
+  },
+  groupChatCard: {
+    backgroundColor: '#fffdf5',
+    borderColor: '#fed7aa',
+  },
+  groupAvatarContainer: {
+    width: rs(50),
+    height: rs(44),
+    position: 'relative',
+    marginRight: rs(16),
+    justifyContent: 'center',
+  },
+  groupMiniAvatar: {
+    width: rs(26),
+    height: rs(26),
+    borderRadius: rs(13),
+    borderWidth: 1.5,
+    borderColor: '#ffffff',
+    position: 'absolute',
+  },
+  groupBadge: {
+    backgroundColor: '#fef3c7',
+    paddingHorizontal: rs(6),
+    paddingVertical: rs(1.5),
+    borderRadius: rs(6),
+    marginLeft: rs(6),
+  },
+  groupBadgeText: {
+    fontFamily: 'AfacadFlux_700Bold',
+    fontSize: rs(11),
+    color: '#b45309',
+  },
+>>>>>>> 277c38f (Fix giao dien app)
   userCard: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: rs(16), backgroundColor: '#ffffff', borderRadius: rs(16), borderWidth: 1, borderColor: '#f3f4f6' },
   userInfoLeft: { flexDirection: 'row', alignItems: 'center', flex: 1 },
   avatar: { width: rs(50), height: rs(50), borderRadius: rs(25), marginRight: rs(16) },
@@ -469,9 +754,16 @@ const styles = StyleSheet.create({
   actionCol: { width: rs(100), alignItems: 'center' },
   actionBtn: { width: '100%', paddingVertical: rs(6), borderRadius: rs(20), alignItems: 'center', justifyContent: 'center', marginBottom: rs(8) },
   actionBtnSolid: { backgroundColor: '#ffb800' },
+<<<<<<< HEAD
   actionBtnTextSolid: { fontFamily: 'AfacadFlux_700Bold', fontSize: rs(13), color: '#ffffff' },
   actionBtnOutlineGray: { borderWidth: 1, borderColor: '#9ca3af', backgroundColor: '#ffffff' },
   actionBtnTextGray: { fontFamily: 'AfacadFlux_700Bold', fontSize: rs(13), color: '#9ca3af' },
+=======
+  actionBtnText: { fontFamily: 'AfacadFlux_700Bold', fontSize: rs(13) },
+  actionBtnTextSolid: { color: '#ffffff' },
+  actionBtnOutlineGray: { borderWidth: 1, borderColor: '#9ca3af', backgroundColor: '#ffffff' },
+  actionBtnTextGray: { color: '#9ca3af' },
+>>>>>>> 277c38f (Fix giao dien app)
   actionRow: { flexDirection: 'row', width: '100%', justifyContent: 'space-between' },
   
   // Attendees specifics
@@ -489,6 +781,10 @@ const styles = StyleSheet.create({
   attendeeDesc: { fontFamily: 'AfacadFlux_400Regular', fontSize: rs(13), color: '#6b7280' },
   attendeeDate: { fontFamily: 'AfacadFlux_600SemiBold', fontSize: rs(13), color: '#d97706' },
   attendeeBadge: { paddingHorizontal: rs(12), paddingVertical: rs(4), borderRadius: rs(20) },
+<<<<<<< HEAD
+=======
+  attendeeBadgeText: { fontFamily: 'AfacadFlux_600SemiBold', fontSize: rs(12) },
+>>>>>>> 277c38f (Fix giao dien app)
   badgeGoing: { backgroundColor: '#dcfce7' },
   badgeTextGoing: { fontFamily: 'AfacadFlux_600SemiBold', fontSize: rs(12), color: '#166534' },
   badgeMaybe: { backgroundColor: '#fef3c7' },

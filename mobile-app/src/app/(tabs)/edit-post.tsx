@@ -113,8 +113,14 @@ export default function EditPostScreen() {
         </ScrollView>
       </KeyboardAvoidingView>
 
+<<<<<<< HEAD
       <AISup />
       <TabBarMenu activeTab="profile" />
+=======
+      <TabBarMenu activeTab="profile" />
+
+      <AISup />
+>>>>>>> 277c38f (Fix giao dien app)
     </View>
   );
 }

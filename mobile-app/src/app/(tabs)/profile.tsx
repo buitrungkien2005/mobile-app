@@ -91,10 +91,10 @@ export default function ProfileScreen() {
       </ScrollView>
 
       {/* Floating Bee AI */}
-      <AISup />
 
-      {/* TabBar Coded UI */}
       <TabBarMenu activeTab="profile" />
+
+      <AISup />
     </View>
   );
 }

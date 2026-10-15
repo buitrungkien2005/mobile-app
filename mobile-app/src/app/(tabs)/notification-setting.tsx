@@ -99,10 +99,17 @@ export default function NotificationSettingScreen() {
       </ScrollView>
 
       {/* Floating AI Bee */}
+<<<<<<< HEAD
       <AISup isGuest={false} />
 
       {/* TabBar */}
       <TabBarMenu activeTab="profile" />
+=======
+
+      <TabBarMenu activeTab="profile" />
+
+      <AISup isGuest={false} />
+>>>>>>> 277c38f (Fix giao dien app)
     </View>
   );
 }

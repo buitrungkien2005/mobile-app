@@ -87,10 +87,10 @@ export default function HelpCenterScreen() {
       </ScrollView>
 
       {/* Floating AI Bee */}
-      <AISup isGuest={false} />
 
-      {/* TabBar */}
       <TabBarMenu activeTab="profile" />
+
+      <AISup isGuest={false} />
     </View>
   );
 }

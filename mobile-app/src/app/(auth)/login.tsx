@@ -14,7 +14,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const HEADER_HEIGHT = SCREEN_WIDTH * (149 / 393);
 
-type AuthMode = 'signIn' | 'signUp' | 'forgotPass' | 'verifyCode' | 'createProfile';
+type AuthMode = 'signIn' | 'signUp' | 'forgotPass' | 'verifyCode' | 'personalDetails' | 'additionalDetails' | 'createProfile';
 
 
 const EyeOpenIcon = ({ color }: { color: string }) => (
@@ -45,6 +45,13 @@ export default function AuthScreen() {
   
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  // Personal details & Additional details fields (Step 1 & 2)
+  const [occupation, setOccupation] = useState('Software engineer');
+  const [dob, setDob] = useState('May 14, 2001');
+  const [gender, setGender] = useState('Prefer not to say');
+  const [country, setCountry] = useState('United States');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   // Buddy Profile fields
   const [selectedAvatar, setSelectedAvatar] = useState<number>(0);
@@ -174,6 +181,10 @@ export default function AuthScreen() {
     } else if (mode === 'verifyCode') {
       changeMode('signIn');
     } else if (mode === 'signUp') {
+      changeMode('personalDetails');
+    } else if (mode === 'personalDetails') {
+      changeMode('additionalDetails');
+    } else if (mode === 'additionalDetails') {
       changeMode('createProfile');
     } else if (mode === 'createProfile') {
       router.replace('/(tabs)/profile');
@@ -202,6 +213,8 @@ export default function AuthScreen() {
     outputRange: [-20, 0] // starts higher (-20), slides down to 0
   });
 
+  const isCompactHeader = mode === 'signUp' || mode === 'personalDetails' || mode === 'additionalDetails';
+
   return (
     <View style={styles.container}>
 
@@ -217,14 +230,21 @@ export default function AuthScreen() {
             resizeMode="cover" 
           />
 
-          <View style={styles.logoContainer}>
+          <View style={[styles.logoContainer, isCompactHeader && styles.logoContainerCompact]}>
             <Image 
               source={require('../../../assets/images/logo.png')} 
-              style={{ width: rs(60), height: rs(60), marginBottom: rs(10) }} 
+              style={isCompactHeader ? styles.logoCompact : styles.logoNormal} 
               resizeMode="contain" 
             />
-            <Reanimated.Text key={mode} entering={FadeIn} exiting={FadeOut} layout={LinearTransition.duration(350)} style={styles.welcomeText}>
-              {mode === 'signUp' ? 'Create an account' 
+            <Reanimated.Text 
+              key={mode} 
+              entering={FadeIn} 
+              exiting={FadeOut} 
+              layout={LinearTransition.duration(350)} 
+              style={[styles.welcomeText, isCompactHeader && styles.welcomeTextCompact]}
+            >
+              {mode === 'signUp' || mode === 'personalDetails' ? 'Create account' 
+               : mode === 'additionalDetails' ? 'Additional details'
                : mode === 'forgotPass' ? 'Forgot password' 
                : mode === 'verifyCode' ? 'Enter login code' 
                : mode === 'createProfile' ? 'Create Profile'
@@ -381,6 +401,178 @@ export default function AuthScreen() {
                 </View>
               )}
 
+              {/* === PERSONAL DETAILS (STEP 1) === */}
+              {mode === 'personalDetails' && (
+                <View style={styles.stepFormContainer}>
+                  {/* Stepper Progress Bar */}
+                  <View style={styles.stepperRow}>
+                    <View style={styles.stepperCol}>
+                      <View style={[styles.stepperLine, styles.stepperLineActive]} />
+                      <Text style={[styles.stepperText, styles.stepperTextActive]}>1  Personal details</Text>
+                    </View>
+                    <View style={{ width: rs(14) }} />
+                    <View style={styles.stepperCol}>
+                      <View style={styles.stepperLine} />
+                      <Text style={styles.stepperText}>2  Additional details</Text>
+                    </View>
+                  </View>
+
+                  {/* Heading & Subtitle */}
+                  <Text style={styles.stepHeading}>Tell us a bit more</Text>
+                  <Text style={styles.stepSubheading}>A few extra details to help us tailor your experience.</Text>
+
+                  {/* Field 1: Occupation */}
+                  <Text style={styles.stepLabel}>Occupation</Text>
+                  <View style={styles.stepInputWrap}>
+                    <TextInput
+                      style={styles.stepInputField}
+                      placeholder="Software engineer"
+                      placeholderTextColor="#9ca3af"
+                      value={occupation}
+                      onChangeText={setOccupation}
+                    />
+                  </View>
+
+                  {/* Field 2: Date of birth */}
+                  <Text style={styles.stepLabel}>Date of birth</Text>
+                  <View style={styles.stepInputWrap}>
+                    <TextInput
+                      style={styles.stepInputField}
+                      placeholder="May 14, 2001"
+                      placeholderTextColor="#9ca3af"
+                      value={dob}
+                      onChangeText={setDob}
+                    />
+                  </View>
+
+                  {/* Field 3: Gender (optional) */}
+                  <View style={styles.genderLabelRow}>
+                    <Text style={styles.stepLabel}>Gender</Text>
+                    <Text style={styles.stepOptionalTag}> (optional)</Text>
+                  </View>
+                  <View style={styles.genderGridWrap}>
+                    {['Woman', 'Man', 'Non-binary', 'Prefer not to say'].map((item) => {
+                      const isSelected = gender === item;
+                      return (
+                        <TouchableOpacity
+                          key={item}
+                          style={[styles.genderCard, isSelected && styles.genderCardActive]}
+                          onPress={() => setGender(item)}
+                          activeOpacity={0.75}
+                        >
+                          <View style={[styles.genderRadioCircle, isSelected && styles.genderRadioCircleActive]}>
+                            {isSelected && <View style={styles.genderRadioDot} />}
+                          </View>
+                          <Text style={[styles.genderCardText, isSelected && styles.genderCardTextActive]}>
+                            {item}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </View>
+
+                  {/* Bee AI Helper Note Card */}
+                  <View style={styles.helperCard}>
+                    <View style={styles.helperAvatarContainer}>
+                      <Image 
+                        source={require('../../../assets/images/avatar_v3_Beezy.png')} 
+                        style={styles.helperAvatarImage} 
+                        resizeMode="contain" 
+                      />
+                    </View>
+                    <View style={styles.helperTextContainer}>
+                      <Text style={styles.helperCardTitle}>A little hello, not a life story.</Text>
+                      <Text style={styles.helperCardDesc}>Your birthday stays private. Gender is always your choice.</Text>
+                    </View>
+                  </View>
+                </View>
+              )}
+
+              {/* === ADDITIONAL DETAILS (STEP 2) === */}
+              {mode === 'additionalDetails' && (
+                <View style={styles.stepFormContainer}>
+                  {/* Stepper Progress Bar */}
+                  <View style={styles.stepperRow}>
+                    <View style={styles.stepperCol}>
+                      <View style={[styles.stepperLine, styles.stepperLineActive]} />
+                      <View style={styles.stepperDoneLabelRow}>
+                        <Text style={styles.stepperCheckMark}>✓ </Text>
+                        <Text style={styles.stepperText}>Personal details</Text>
+                      </View>
+                    </View>
+                    <View style={{ width: rs(14) }} />
+                    <View style={styles.stepperCol}>
+                      <View style={[styles.stepperLine, styles.stepperLineActive]} />
+                      <Text style={[styles.stepperText, styles.stepperTextActive]}>2  Additional details</Text>
+                    </View>
+                  </View>
+
+                  {/* Heading & Subtitle */}
+                  <Text style={styles.stepHeading}>Almost there, {name.trim() || 'Maya'}!</Text>
+                  <Text style={styles.stepSubheading}>Add a few more details and let the good buzz begin.</Text>
+
+                  {/* Field 1: Country / Region */}
+                  <Text style={styles.stepLabel}>Country / Region</Text>
+                  <View style={styles.stepInputWrap}>
+                    <TextInput
+                      style={styles.stepInputField}
+                      placeholder="United States"
+                      placeholderTextColor="#9ca3af"
+                      value={country}
+                      onChangeText={setCountry}
+                    />
+                  </View>
+
+                  {/* Field 2: Phone number (optional) */}
+                  <View style={styles.genderLabelRow}>
+                    <Text style={styles.stepLabel}>Phone number</Text>
+                    <Text style={styles.stepOptionalTag}> (optional)</Text>
+                  </View>
+                  <View style={[styles.stepInputWrap, { marginBottom: rs(6) }]}>
+                    <TextInput
+                      style={styles.stepInputField}
+                      placeholder="Enter your phone number"
+                      placeholderTextColor="#9ca3af"
+                      value={phoneNumber}
+                      onChangeText={setPhoneNumber}
+                      keyboardType="phone-pad"
+                    />
+                  </View>
+                  <Text style={styles.stepInputSubHint}>You can leave this blank.</Text>
+
+                  {/* Summary Card: Personal details complete */}
+                  <View style={styles.summaryCard}>
+                    <View style={styles.summaryTitleRow}>
+                      <View style={styles.summaryCheckCircle}>
+                        <Ionicons name="checkmark" size={rs(12)} color="#ffffff" />
+                      </View>
+                      <Text style={styles.summaryCardTitle}>Personal details complete</Text>
+                    </View>
+                    <Text style={styles.summaryLine1}>
+                      Occupation: {occupation || 'Software engineer'} · {dob || 'May 14, 2001'}
+                    </Text>
+                    <Text style={styles.summaryLine2}>
+                      Gender: {gender ? gender.toLowerCase() : 'prefer not to say'}
+                    </Text>
+                  </View>
+
+                  {/* Bee AI Helper Note Card */}
+                  <View style={styles.helperCard}>
+                    <View style={styles.helperAvatarContainer}>
+                      <Image 
+                        source={require('../../../assets/images/avatar_v3_Beezy.png')} 
+                        style={styles.helperAvatarImage} 
+                        resizeMode="contain" 
+                      />
+                    </View>
+                    <View style={styles.helperTextContainer}>
+                      <Text style={styles.helperCardTitle}>Your buddy is waiting!</Text>
+                      <Text style={styles.helperCardDesc}>Your country helps us tailor your experience. Phone number is optional.</Text>
+                    </View>
+                  </View>
+                </View>
+              )}
+
               {/* === OPTIONS (Chỉ hiện khi Sign In) === */}
               {mode === 'signIn' && (<Reanimated.View entering={FadeIn} exiting={FadeOut} layout={LinearTransition.duration(350)}><View style={styles.optionsContainer}>
                   <TouchableOpacity style={styles.checkboxContainer} onPress={() => setRememberMe(!rememberMe)}>
@@ -394,6 +586,15 @@ export default function AuthScreen() {
                   </TouchableOpacity>
                 </View></Reanimated.View>)}
 
+              {/* === STEP CAPTION (Chỉ hiện ở Step 1 & 2) === */}
+              {(mode === 'personalDetails' || mode === 'additionalDetails') && (
+                <Text style={styles.stepCaptionText}>
+                  {mode === 'personalDetails' 
+                    ? 'Step 1 of 2 · Next: additional details' 
+                    : 'Step 2 of 2 · Ready to meet your buddy!'}
+                </Text>
+              )}
+
               {/* === NÚT CHÍNH === */}
               <Reanimated.View layout={LinearTransition.duration(350)}><TouchableOpacity style={styles.mainBtn} onPress={handleAction}>
                 <Text style={styles.mainBtnText}>
@@ -401,24 +602,33 @@ export default function AuthScreen() {
                    : mode === 'forgotPass' ? 'Reset password' 
                    : mode === 'verifyCode' ? 'Verify Code' 
                    : mode === 'createProfile' ? 'Create Profile ➝'
+                   : mode === 'personalDetails' || mode === 'additionalDetails' ? 'Continue ➔'
                    : 'Sign in'}
                 </Text>
               </TouchableOpacity></Reanimated.View>
 
               {/* === NÚT GUEST === */}
-              {(mode === 'signUp' || mode === 'signIn' || mode === 'createProfile' || mode === 'forgotPass' || mode === 'verifyCode') && (<Reanimated.View layout={LinearTransition.duration(350)} entering={FadeIn} exiting={FadeOut}><TouchableOpacity style={styles.guestBtn} onPress={() => router.push('/(guest)/home')}>
+              {(mode === 'signUp' || mode === 'signIn' || mode === 'forgotPass' || mode === 'verifyCode') && (<Reanimated.View layout={LinearTransition.duration(350)} entering={FadeIn} exiting={FadeOut}><TouchableOpacity style={styles.guestBtn} onPress={() => router.push('/(guest)/home')}>
                   <Image source={require('../../../assets/images/icon_guest.png')} style={{ width: rs(18), height: rs(18), marginRight: rs(10) }} resizeMode="contain" />
                   <Text style={styles.guestBtnText}>
                     {mode === 'signUp' ? 'Continue as guest' : 'Continues with guests'}
                   </Text>
                 </TouchableOpacity></Reanimated.View>)}
-              {/* === BACK TO LOGIN TEXT (Chỉ hiện khi Forgot Pass / Verify Code) === */}
-              {(mode === 'forgotPass' || mode === 'verifyCode') && (<Reanimated.View layout={LinearTransition.duration(350)} entering={FadeIn} exiting={FadeOut}><TouchableOpacity style={styles.backToLoginContainer} onPress={() => changeMode('signIn')}>
-                  <Text style={styles.backToLoginText}>
-                    <Text style={{color: '#9ca3af'}}>Back to </Text>
-                    <Text style={{color: '#ff7b00'}}>Login</Text>
-                  </Text>
-                </TouchableOpacity></Reanimated.View>)}
+              {/* === BACK TO LOGIN TEXT (Hiện khi Forgot Pass / Verify Code / Create Profile / Step 1 & 2) === */}
+              {(mode === 'forgotPass' || mode === 'verifyCode' || mode === 'createProfile' || mode === 'personalDetails' || mode === 'additionalDetails') && (
+                <Reanimated.View layout={LinearTransition.duration(350)} entering={FadeIn} exiting={FadeOut}>
+                  <TouchableOpacity 
+                    style={styles.backToLoginContainer} 
+                    onPress={() => changeMode('signIn')}
+                    activeOpacity={0.7}
+                  >
+                    <Text style={styles.backToLoginText}>
+                      <Text style={{ color: '#9ca3af' }}>Back to </Text>
+                      <Text style={{ color: '#ff7b00', fontWeight: 'bold' }}>Login</Text>
+                    </Text>
+                  </TouchableOpacity>
+                </Reanimated.View>
+              )}
               {/* === CÁC NÚT MẠNG XÃ HỘI (Chỉ hiện signIn / signUp) === */}
               {(mode === 'signIn' || mode === 'signUp') && (<Reanimated.View entering={FadeIn} exiting={FadeOut} layout={LinearTransition.duration(350)}><>
                   <TouchableOpacity style={styles.googleBtn}>
@@ -592,7 +802,11 @@ const styles = StyleSheet.create({
   scrollContent: { flexGrow: 1, paddingBottom: rs(40) },
   headerBackground: { width: '100%', height: HEADER_HEIGHT, marginBottom: 0 },
   logoContainer: { alignItems: 'center', marginBottom: rs(15), marginTop: -40 },
+  logoContainerCompact: { marginTop: -58, marginBottom: rs(10) },
+  logoNormal: { width: rs(60), height: rs(60), marginBottom: rs(10) },
+  logoCompact: { width: rs(40), height: rs(40), marginBottom: rs(4) },
   welcomeText: { fontSize: rs(28), fontWeight: 'bold', color: '#ffbb00' },
+  welcomeTextCompact: { fontSize: rs(21), fontFamily: 'AfacadFlux_700Bold' },
   formWrapper: { paddingHorizontal: rs(24) },
   formContainer: { backgroundColor: '#ffffff', borderRadius: rs(24) },
   label: { fontSize: rs(14), fontWeight: 'bold', color: '#374151', marginBottom: rs(6), marginLeft: rs(4) },
@@ -613,8 +827,8 @@ const styles = StyleSheet.create({
   mainBtnText: { color: '#111827', fontSize: rs(16), fontWeight: 'bold' },
   guestBtn: { backgroundColor: '#000000', borderRadius: rs(16), height: rs(52), flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: rs(16) },
   guestBtnText: { color: '#ffbb00', fontSize: rs(16), fontWeight: 'bold' },
-  backToLoginContainer: { height: rs(52), justifyContent: 'center', alignItems: 'center', marginBottom: rs(16) },
-  backToLoginText: { fontSize: rs(16), fontWeight: 'bold' },
+  backToLoginContainer: { height: rs(40), justifyContent: 'center', alignItems: 'center', marginBottom: rs(16), marginTop: rs(4) },
+  backToLoginText: { fontSize: rs(14.5), fontWeight: '600' },
   googleBtn: { backgroundColor: '#ffffff', borderWidth: 1, borderColor: '#e5e7eb', borderRadius: rs(16), height: rs(52), flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: rs(16) },
   googleBtnText: { color: '#111827', fontSize: rs(16), fontWeight: 'bold' },
   appleBtn: { backgroundColor: '#000000', borderRadius: rs(16), height: rs(52), flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: rs(30) },
@@ -653,7 +867,47 @@ const styles = StyleSheet.create({
   popupSendBtn: { paddingLeft: rs(8) },
   beeIconButton: { alignSelf: 'flex-start', width: rs(48), height: rs(48) },
   beeIcon: { width: rs(48), height: rs(48) },
-  thoughtBubble: { position: 'absolute', top: -10, right: -15, width: rs(26), height: rs(25) }
+  thoughtBubble: { position: 'absolute', top: -10, right: -15, width: rs(26), height: rs(25) },
+
+  // Step 1 & 2 (Personal & Additional Details) Styles
+  stepFormContainer: { marginTop: rs(-6) },
+  stepperRow: { flexDirection: 'row', alignItems: 'center', marginBottom: rs(20) },
+  stepperCol: { flex: 1 },
+  stepperLine: { height: rs(4), borderRadius: rs(2), backgroundColor: '#e5e7eb', marginBottom: rs(6) },
+  stepperLineActive: { backgroundColor: '#ffbb00' },
+  stepperText: { fontFamily: 'AfacadFlux_700Bold', fontSize: rs(12), color: '#9ca3af' },
+  stepperTextActive: { color: '#18181b' },
+  stepperDoneLabelRow: { flexDirection: 'row', alignItems: 'center' },
+  stepperCheckMark: { fontFamily: 'AfacadFlux_700Bold', fontSize: rs(12), color: '#18181b' },
+  stepHeading: { fontFamily: 'AfacadFlux_700Bold', fontSize: rs(26), color: '#ff7b00', marginBottom: rs(6) },
+  stepSubheading: { fontFamily: 'AfacadFlux_400Regular', fontSize: rs(14), color: '#6b7280', marginBottom: rs(20), lineHeight: rs(20) },
+  stepLabel: { fontFamily: 'AfacadFlux_700Bold', fontSize: rs(14), color: '#18181b', marginBottom: rs(6), marginLeft: rs(2) },
+  stepOptionalTag: { fontFamily: 'AfacadFlux_400Regular', fontSize: rs(13), color: '#9ca3af' },
+  stepInputWrap: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#e5e7eb', backgroundColor: '#f9fafb', borderRadius: rs(16), paddingHorizontal: rs(16), height: rs(52), marginBottom: rs(18) },
+  stepInputField: { flex: 1, fontFamily: 'AfacadFlux_400Regular', fontSize: rs(15), color: '#18181b' },
+  stepInputSubHint: { fontFamily: 'AfacadFlux_400Regular', fontSize: rs(12), color: '#78716c', marginBottom: rs(18), marginLeft: rs(4) },
+  genderLabelRow: { flexDirection: 'row', alignItems: 'center', marginBottom: rs(8) },
+  genderGridWrap: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginBottom: rs(18) },
+  genderCard: { width: '48.5%', flexDirection: 'row', alignItems: 'center', height: rs(48), paddingHorizontal: rs(12), borderRadius: rs(16), borderWidth: 1.5, borderColor: '#e5e7eb', backgroundColor: '#f9fafb', marginBottom: rs(10) },
+  genderCardActive: { borderColor: '#ffbb00', backgroundColor: '#fffbeb' },
+  genderRadioCircle: { width: rs(18), height: rs(18), borderRadius: rs(9), borderWidth: 2, borderColor: '#9ca3af', justifyContent: 'center', alignItems: 'center', marginRight: rs(8) },
+  genderRadioCircleActive: { borderColor: '#ffbb00' },
+  genderRadioDot: { width: rs(8), height: rs(8), borderRadius: rs(4), backgroundColor: '#ffbb00' },
+  genderCardText: { fontFamily: 'AfacadFlux_400Regular', fontSize: rs(13.5), color: '#18181b' },
+  genderCardTextActive: { fontFamily: 'AfacadFlux_700Bold', color: '#18181b' },
+  helperCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fffbeb', borderRadius: rs(18), padding: rs(14), marginBottom: rs(16) },
+  helperAvatarContainer: { width: rs(46), height: rs(46), borderRadius: rs(23), backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', marginRight: rs(12), borderWidth: 1, borderColor: '#fef3c7' },
+  helperAvatarImage: { width: rs(38), height: rs(38) },
+  helperTextContainer: { flex: 1 },
+  helperCardTitle: { fontFamily: 'AfacadFlux_700Bold', fontSize: rs(14), color: '#18181b', marginBottom: rs(3) },
+  helperCardDesc: { fontFamily: 'AfacadFlux_400Regular', fontSize: rs(12), color: '#6b7280', lineHeight: rs(17) },
+  summaryCard: { borderWidth: 1, borderColor: '#e5e7eb', backgroundColor: '#ffffff', borderRadius: rs(16), padding: rs(16), marginBottom: rs(18) },
+  summaryTitleRow: { flexDirection: 'row', alignItems: 'center', marginBottom: rs(4) },
+  summaryCheckCircle: { width: rs(18), height: rs(18), borderRadius: rs(9), backgroundColor: '#ffbb00', justifyContent: 'center', alignItems: 'center', marginRight: rs(8) },
+  summaryCardTitle: { fontFamily: 'AfacadFlux_700Bold', fontSize: rs(14), color: '#18181b' },
+  summaryLine1: { fontFamily: 'AfacadFlux_400Regular', fontSize: rs(13), color: '#374151', marginTop: rs(4) },
+  summaryLine2: { fontFamily: 'AfacadFlux_400Regular', fontSize: rs(12.5), color: '#78716c', marginTop: rs(2) },
+  stepCaptionText: { fontFamily: 'AfacadFlux_400Regular', fontSize: rs(12.5), color: '#6b7280', textAlign: 'center', marginBottom: rs(10), marginTop: rs(4) }
 });
 
 

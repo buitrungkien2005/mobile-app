@@ -464,8 +464,8 @@ export default function ProfileInfoScreen() {
         </View>
       </ScrollView>
 
-      {/* Floating AI Bee */}
-      <AISup isGuest={false} />
+      {/* Comment Modal */}
+      <CommentModal visible={isCommentModalVisible} onClose={closeCommentModal} />
 
       {/* Comment Modal */}
       <CommentModal visible={isCommentModalVisible} onClose={closeCommentModal} />
@@ -538,6 +538,8 @@ export default function ProfileInfoScreen() {
         </TouchableWithoutFeedback>
       </Modal>
 
+      {/* Floating AI Bee (TOPMOST LAYER) */}
+      <AISup isGuest={false} />
     </View>
   );
 }

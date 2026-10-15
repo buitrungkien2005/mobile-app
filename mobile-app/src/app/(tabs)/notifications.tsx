@@ -146,8 +146,9 @@ export default function NotificationsScreen() {
         )}
       </ScrollView>
 
-      <AISup />
       <TabBarMenu activeTab="home" />
+
+      <AISup />
     </View>
   );
 }

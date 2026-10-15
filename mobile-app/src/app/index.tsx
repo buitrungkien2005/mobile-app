@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated } from 'react-native';
+import { Image as ExpoImage } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { rs } from '../utils/scaling';
 
@@ -17,6 +18,65 @@ export default function SplashScreen() {
   const beeTranslateX = useRef(new Animated.Value(0)).current;
   
   const fadeOutAll = useRef(new Animated.Value(1)).current;
+
+  const beeLoadedRef = useRef(false);
+  const step3FinishedRef = useRef(false);
+  const step4StartedRef = useRef(false);
+
+  const startStep4AndRest = () => {
+    if (step4StartedRef.current) return;
+    step4StartedRef.current = true;
+
+    Animated.sequence([
+      // Bước 4: Chú ong xuất hiện ở giữa màn hình với size to (4. open.png)
+      Animated.parallel([
+        Animated.timing(beeOpacity, {
+          toValue: 1,
+          duration: 250,
+          useNativeDriver: false,
+        }),
+        Animated.spring(beeScale, {
+          toValue: 1.2, // size to
+          friction: 5,
+          useNativeDriver: false,
+        }),
+      ]),
+      
+      Animated.delay(1000),
+      
+      // Bước 5: Chú ong nhỏ dần sang phải, Logo text hiện ra bên trái (5. open.png)
+      Animated.parallel([
+        Animated.spring(beeScale, {
+          toValue: 0.8,
+          friction: 6,
+          useNativeDriver: false,
+        }),
+        Animated.spring(beeTranslateX, {
+          toValue: rs(114), // Dịch sang phải vừa vặn, gần sát logo chữ
+          friction: 6,
+          useNativeDriver: false,
+        }),
+        
+        // Hiện Logo text (Logo_open.png)
+        Animated.timing(logoOpenOpacity, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: false,
+        }),
+      ]),
+      
+      Animated.delay(1200),
+      
+      // Bước 6: Chuyển hướng sang Login
+      Animated.timing(fadeOutAll, {
+        toValue: 0,
+        duration: 400,
+        useNativeDriver: false,
+      })
+    ]).start(() => {
+      router.replace('/(auth)/login');
+    });
+  };
 
   useEffect(() => {
     Animated.sequence([
@@ -56,56 +116,29 @@ export default function SplashScreen() {
         duration: 300,
         useNativeDriver: false,
       }),
-      
-      // Bước 4: Chú ong xuất hiện ở giữa màn hình với size to (4. open.png)
-      Animated.parallel([
-        Animated.timing(beeOpacity, {
-          toValue: 1,
-          duration: 200,
-          useNativeDriver: false,
-        }),
-        Animated.spring(beeScale, {
-          toValue: 1.2, // size to
-          friction: 5,
-          useNativeDriver: false,
-        }),
-      ]),
-      
-      Animated.delay(800),
-      
-      // Bước 5: Chú ong nhỏ dần sang phải, Logo text hiện ra bên trái (5. open.png)
-      Animated.parallel([
-        Animated.spring(beeScale, {
-          toValue: 0.8, // To kịch trần
-          friction: 6,
-          useNativeDriver: false,
-        }),
-        Animated.spring(beeTranslateX, {
-          toValue: 128, // Dịch xa hơn
-          friction: 6,
-          useNativeDriver: false,
-        }),
-        
-        // Hiện Logo text (Logo_open.png)
-        Animated.timing(logoOpenOpacity, {
-          toValue: 1,
-          duration: 500,
-          useNativeDriver: false,
-        }),
-      ]),
-      
-      Animated.delay(1000),
-      
-      // Bước 6: Chuyển hướng sang Login
-      Animated.timing(fadeOutAll, {
-        toValue: 0,
-        duration: 400,
-        useNativeDriver: false,
-      })
     ]).start(() => {
-      router.replace('/(auth)/login');
+      step3FinishedRef.current = true;
+      if (beeLoadedRef.current) {
+        startStep4AndRest();
+      }
     });
+
+    // Fallback timer: nếu sau 8s mà chưa trigger thì tự động tiếp tục
+    const fallbackTimer = setTimeout(() => {
+      if (step3FinishedRef.current && !step4StartedRef.current) {
+        startStep4AndRest();
+      }
+    }, 8000);
+
+    return () => clearTimeout(fallbackTimer);
   }, [router]);
+
+  const handleBeeLoad = () => {
+    beeLoadedRef.current = true;
+    if (step3FinishedRef.current && !step4StartedRef.current) {
+      startStep4AndRest();
+    }
+  };
 
   const backgroundColor = bgAnim.interpolate({
     inputRange: [0, 1],
@@ -129,23 +162,22 @@ export default function SplashScreen() {
           resizeMode="contain"
         />
 
-        {/* Logo chữ (hiện ở bước 5, nằm bên trái) */}
+        {/* Logo chữ (hiện ở bước 5, nằm bên trái gần sát chú ong) */}
         <Animated.Image
           source={require('../../assets/images/logo_open.png')}
           style={[
-            styles.logo, // Bằng kích thước logo white
+            styles.logoOpen,
             { 
               opacity: logoOpenOpacity, 
-              transform: [{ translateX: -70 }], // Dịch sang trái
+              transform: [{ translateX: -rs(40) }], // Dịch sang trái cân đối, tạo khoảng cách hẹp tự nhiên
               position: 'absolute' 
             }
           ]}
           resizeMode="contain"
         />
         
-        {/* Chú ong 3D GIF */}
-        <Animated.Image
-          source={require('../../assets/images/logo_3d.gif')}
+        {/* Chú ong 3D GIF chạy mượt mà với ExpoImage */}
+        <Animated.View
           style={[
             styles.bee, 
             { 
@@ -157,8 +189,15 @@ export default function SplashScreen() {
               position: 'absolute',
             }
           ]}
-          resizeMode="contain"
-        />
+        >
+          <ExpoImage
+            source={require('../../assets/images/logo_3d.gif')}
+            style={styles.beeImage}
+            contentFit="contain"
+            autoplay
+            onLoad={handleBeeLoad}
+          />
+        </Animated.View>
       </View>
     </Animated.View>
   );
@@ -177,8 +216,18 @@ const styles = StyleSheet.create({
     width: rs(224),
     height: rs(129),
   },
+  logoOpen: {
+    width: rs(208),
+    height: rs(75),
+  },
   bee: {
     width: rs(256),
     height: rs(256),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  beeImage: {
+    width: '100%',
+    height: '100%',
   }
 });

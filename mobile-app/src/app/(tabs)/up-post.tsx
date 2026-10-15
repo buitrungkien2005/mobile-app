@@ -1,11 +1,36 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, Dimensions, Platform, KeyboardAvoidingView, ImageBackground, Modal } from 'react-native';
+=======
+import React, { useState, useRef } from 'react';
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  Image, 
+  TouchableOpacity, 
+  ScrollView, 
+  TextInput, 
+  Dimensions, 
+  Platform, 
+  KeyboardAvoidingView, 
+  ImageBackground, 
+  Modal, 
+  Animated, 
+  LayoutAnimation, 
+  UIManager 
+} from 'react-native';
+>>>>>>> 277c38f (Fix giao dien app)
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { rs } from '../../utils/scaling';
 import TabBarMenu from '../../components/TabBarMenu';
 import AISup from '../../components/AISup';
 import { useRouter } from 'expo-router';
+
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 const { width, height } = Dimensions.get('window');
 const OVERLAY_HEIGHT = width * (67 / 393);
@@ -18,6 +43,37 @@ export default function UpPostScreen() {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+<<<<<<< HEAD
+=======
+  const [isLearnMoreOpen, setIsLearnMoreOpen] = useState(false);
+  const slideAnim = useRef(new Animated.Value(0)).current;
+
+  const toggleLearnMore = () => {
+    LayoutAnimation.configureNext({
+      duration: 300,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.opacity,
+      },
+      update: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+      },
+      delete: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.opacity,
+      },
+    });
+
+    const nextState = !isLearnMoreOpen;
+    setIsLearnMoreOpen(nextState);
+
+    Animated.timing(slideAnim, {
+      toValue: nextState ? 1 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+>>>>>>> 277c38f (Fix giao dien app)
 
   const toggleSearch = () => {
     setIsSearchActive(!isSearchActive);
@@ -103,13 +159,64 @@ export default function UpPostScreen() {
             <View style={styles.mediaAccessCard}>
               <Text style={styles.mediaTitle}>Allow access to your Photos & Videos</Text>
               <Text style={styles.mediaDesc}>To upload photos and videos to your post, allow BeeBuddy to access your device library</Text>
-              <TouchableOpacity style={styles.primaryBtn}>
+              <TouchableOpacity style={styles.primaryBtn} activeOpacity={0.8}>
                 <Text style={styles.primaryBtnText}>Open Settings</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.learnMoreRow}>
+              
+              <TouchableOpacity 
+                style={styles.learnMoreRow}
+                onPress={toggleLearnMore}
+                activeOpacity={0.7}
+              >
                 <Text style={styles.learnMoreText}>Learn more</Text>
-                <Ionicons name="chevron-down" size={rs(16)} color="#f59e0b" />
+                <Ionicons 
+                  name={isLearnMoreOpen ? "chevron-up" : "chevron-down"} 
+                  size={rs(16)} 
+                  color="#e68a00" 
+                />
               </TouchableOpacity>
+
+              {isLearnMoreOpen && (
+                <Animated.View 
+                  style={[
+                    styles.whyAccessCard,
+                    {
+                      opacity: slideAnim,
+                      transform: [
+                        {
+                          translateY: slideAnim.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [-rs(14), 0],
+                          }),
+                        },
+                      ],
+                    },
+                  ]}
+                >
+                  <Text style={styles.whyAccessTitle}>Why should you allow access?</Text>
+
+                  <View style={styles.whyAccessRow}>
+                    <View style={styles.checkCircleBadge}>
+                      <Ionicons name="checkmark" size={rs(12)} color="#ea580c" />
+                    </View>
+                    <Text style={styles.whyAccessText}>Post and share your special moments</Text>
+                  </View>
+
+                  <View style={styles.whyAccessRow}>
+                    <View style={styles.checkCircleBadge}>
+                      <Ionicons name="checkmark" size={rs(12)} color="#ea580c" />
+                    </View>
+                    <Text style={styles.whyAccessText}>Connect with friends who share the same interests and hobbies</Text>
+                  </View>
+
+                  <View style={[styles.whyAccessRow, { marginBottom: 0 }]}>
+                    <View style={styles.checkCircleBadge}>
+                      <Ionicons name="checkmark" size={rs(12)} color="#ea580c" />
+                    </View>
+                    <Text style={styles.whyAccessText}>Share everything you love — choose between private or public</Text>
+                  </View>
+                </Animated.View>
+              )}
             </View>
             <View style={styles.divider} />
             <View style={styles.captionSection}>
@@ -194,9 +301,13 @@ export default function UpPostScreen() {
           </View>
         </View>
       </Modal>
+<<<<<<< HEAD
+=======
+
+      <TabBarMenu activeTab="up-post" />
+>>>>>>> 277c38f (Fix giao dien app)
 
       <AISup />
-      <TabBarMenu activeTab="up-post" />
     </View>
   );
 }
@@ -382,11 +493,50 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: rs(4),
+    paddingVertical: rs(4),
   },
   learnMoreText: {
     fontFamily: 'AfacadFlux_600SemiBold',
     fontSize: rs(13),
-    color: '#f59e0b',
+    color: '#e68a00',
+    textDecorationLine: 'underline',
+  },
+  whyAccessCard: {
+    width: '100%',
+    backgroundColor: '#fffdf5',
+    borderWidth: 1,
+    borderColor: '#fed7aa',
+    borderRadius: rs(16),
+    padding: rs(16),
+    marginTop: rs(14),
+  },
+  whyAccessTitle: {
+    fontFamily: 'AfacadFlux_700Bold',
+    fontSize: rs(15),
+    color: '#b45309',
+    marginBottom: rs(14),
+  },
+  whyAccessRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: rs(12),
+  },
+  checkCircleBadge: {
+    width: rs(20),
+    height: rs(20),
+    borderRadius: rs(10),
+    backgroundColor: '#ffedd5',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: rs(10),
+    marginTop: rs(1),
+  },
+  whyAccessText: {
+    flex: 1,
+    fontFamily: 'AfacadFlux_400Regular',
+    fontSize: rs(13),
+    color: '#4b5563',
+    lineHeight: rs(18),
   },
   divider: {
     height: 1,

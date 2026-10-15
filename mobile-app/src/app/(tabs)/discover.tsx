@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, ScrollView, Dimensions, TouchableOpacity
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import TabBarMenu from '../../components/TabBarMenu';
+import AISup from '../../components/AISup';
 import { rs } from '../../utils/scaling';
 
 const { width } = Dimensions.get('window');
@@ -13,7 +14,11 @@ type ConnectState = 'Connect' | 'Pending' | 'Accept' | 'Connected' | 'Disconnect
 
 const UserConnectButton = () => {
   const [state, setState] = useState<ConnectState>('Connect');
+<<<<<<< HEAD
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+=======
+  const timerRef = useRef<any>(null);
+>>>>>>> 277c38f (Fix giao dien app)
 
   useEffect(() => {
     return () => {
@@ -84,10 +89,10 @@ export default function DiscoverScreen() {
   ];
 
   const sharedUsers = [
-    { name: 'Alex Kim', location: 'Mapo-gu, Seoul', tags: ['💻 Coding', '🎮 Gaming', '🎵 Music'] },
-    { name: 'MinhTran', location: 'Cau Giay, Hanoi', tags: ['📷 Photography', '🏃 Running', '☕ Coffee'] },
-    { name: 'Sora Park', location: 'Gangnam, Seoul', tags: ['🎨 Design', '📚 Reading', '🧘 Yoga'] },
-    { name: 'Yuki Tanaka', location: 'Shibuya, Tokyo', tags: ['🎬 Film', '🍳 Cooking', '✈️ Travel'] },
+    { id: 'd1', name: 'Alex Kim', location: 'Mapo-gu, Seoul', avatar: require('../../../assets/images/Alex_Kim.png'), tags: ['💻 Coding', '🎮 Gaming', '🎵 Music'] },
+    { id: 'd2', name: 'Minh Tran', location: 'Cau Giay, Hanoi', avatar: require('../../../assets/images/Minh_Tran.png'), tags: ['📷 Photography', '🏃 Running', '☕ Coffee'] },
+    { id: 'd3', name: 'Sora Park', location: 'Gangnam, Seoul', avatar: require('../../../assets/images/Sora_Park.png'), tags: ['🎨 Design', '📚 Reading', '🧘 Yoga'] },
+    { id: 'd4', name: 'Yuki Tanaka', location: 'Shibuya, Tokyo', avatar: require('../../../assets/images/Yuki_Tanaka.png'), tags: ['🎬 Film', '🍳 Cooking', '✈️ Travel'] },
   ];
 
   const toggleChip = (chip: string) => {
@@ -134,7 +139,11 @@ export default function DiscoverScreen() {
               <Image source={require('../../../assets/images/Avatar_Me.png')} style={styles.headerAvatar} />
             </TouchableOpacity>
 
+<<<<<<< HEAD
             <TouchableOpacity style={styles.filterBtn}>
+=======
+            <TouchableOpacity style={styles.filterBtn} onPress={() => router.push('/(tabs)/search-buddy')}>
+>>>>>>> 277c38f (Fix giao dien app)
               <Ionicons name="options-outline" size={rs(20)} color="#000" />
             </TouchableOpacity>
           </View>
@@ -235,10 +244,10 @@ export default function DiscoverScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>People With Shared Interests</Text>
           <ScrollView horizontal={false} scrollEnabled={false} contentContainerStyle={{ gap: rs(16) }}>
-            {sharedUsers.map((user, idx) => (
-              <View key={idx} style={styles.userCard}>
+            {sharedUsers.map((user) => (
+              <View key={user.id} style={styles.userCard}>
                 <View style={styles.userInfoRow}>
-                  <Image source={require('../../../assets/images/AvatarBorder.png')} style={styles.sharedAvatar} />
+                  <Image source={user.avatar} style={styles.sharedAvatar} />
                   <View style={styles.userDetails}>
                     <View style={styles.nameRow}>
                       <Text style={styles.userName}>{user.name}</Text>
@@ -256,7 +265,14 @@ export default function DiscoverScreen() {
 
                 <View style={styles.userActions}>
                   <UserConnectButton />
+<<<<<<< HEAD
                   <TouchableOpacity style={styles.chatBtn}>
+=======
+                  <TouchableOpacity 
+                    style={styles.chatBtn}
+                    onPress={() => router.push({ pathname: '/(tabs)/chat', params: { id: user.id } })}
+                  >
+>>>>>>> 277c38f (Fix giao dien app)
                     <Ionicons name="chatbubble" size={rs(16)} color="#ffbb00" style={{ marginRight: rs(6) }} />
                     <Text style={styles.chatBtnText}>Chat</Text>
                   </TouchableOpacity>
@@ -268,8 +284,11 @@ export default function DiscoverScreen() {
 
       </ScrollView>
 
-      {/* TabBar */}
+      {/* AISup mascot */}
+
       <TabBarMenu activeTab="discover" />
+
+      <AISup isGuest={false} />
     </View>
   );
 }
@@ -497,6 +516,7 @@ const styles = StyleSheet.create({
   sharedAvatar: {
     width: rs(60),
     height: rs(60),
+    borderRadius: rs(30),
     marginRight: rs(16),
     resizeMode: 'contain',
   },

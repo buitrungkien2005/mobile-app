@@ -101,8 +101,14 @@ export default function ViewPostScreen() {
         </TouchableOpacity>
       </ScrollView>
 
+<<<<<<< HEAD
       <AISup />
       <TabBarMenu activeTab="up-post" />
+=======
+      <TabBarMenu activeTab="up-post" />
+
+      <AISup />
+>>>>>>> 277c38f (Fix giao dien app)
     </View>
   );
 }

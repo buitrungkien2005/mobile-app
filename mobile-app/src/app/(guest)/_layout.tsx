@@ -13,6 +13,36 @@ export default function GuestLayout() {
           title: 'Guest Home',
         }}
       />
+      <Stack.Screen
+        name="discover"
+        options={{
+          title: 'Guest Discover',
+        }}
+      />
+      <Stack.Screen
+        name="add"
+        options={{
+          title: 'Guest Add',
+        }}
+      />
+      <Stack.Screen
+        name="up-post"
+        options={{
+          title: 'Guest Up Post',
+        }}
+      />
+      <Stack.Screen
+        name="messages"
+        options={{
+          title: 'Guest Messages',
+        }}
+      />
+      <Stack.Screen
+        name="profile"
+        options={{
+          title: 'Guest Profile',
+        }}
+      />
     </Stack>
   );
 }

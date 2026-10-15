@@ -90,10 +90,10 @@ export default function LanguageScreen() {
       </ScrollView>
 
       {/* Floating AI Bee */}
-      <AISup isGuest={false} />
 
-      {/* TabBar */}
       <TabBarMenu activeTab="profile" />
+
+      <AISup isGuest={false} />
     </View>
   );
 }

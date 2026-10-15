@@ -58,7 +58,7 @@ export default function ProfileSettingScreen() {
               onPress={() => router.push('/(tabs)/profile-info')}
             >
               <View style={styles.menuLeft}>
-                <Image source={require('../../../assets/images/user.png')} style={{ width: rs(20), height: rs(20) }} resizeMode="contain" />
+                <Image source={require('../../../assets/images/user44444.png')} style={{ width: rs(20), height: rs(20) }} resizeMode="contain" />
                 <Text style={styles.menuText}>Account Info</Text>
               </View>
               <Ionicons name="chevron-forward" size={rs(18)} color="#9ca3af" />
@@ -176,10 +176,10 @@ export default function ProfileSettingScreen() {
       </ScrollView>
 
       {/* Floating AI Bee */}
-      <AISup isGuest={false} />
 
-      {/* TabBar */}
       <TabBarMenu activeTab="profile" />
+
+      <AISup isGuest={false} />
     </View>
   );
 }

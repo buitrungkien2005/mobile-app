@@ -98,10 +98,10 @@ export default function PrivacySafetyScreen() {
       </ScrollView>
 
       {/* Floating AI Bee */}
-      <AISup isGuest={false} />
 
-      {/* TabBar */}
       <TabBarMenu activeTab="profile" />
+
+      <AISup isGuest={false} />
     </View>
   );
 }

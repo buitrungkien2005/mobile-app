@@ -146,7 +146,12 @@ export default function HomeScreen() {
   // Modal state
   const [isInviteModalVisible, setInviteModalVisible] = useState(false);
   const [isCommentModalVisible, setCommentModalVisible] = useState(false);
+  const [openPostMenuId, setOpenPostMenuId] = useState<string | null>(null);
   const scaleValue = useRef(new Animated.Value(0)).current;
+
+  const togglePostMenu = (postId: string) => {
+    setOpenPostMenuId(prev => (prev === postId ? null : postId));
+  };
 
     const openCommentModal = () => setCommentModalVisible(true);
   const closeCommentModal = () => setCommentModalVisible(false);
@@ -227,33 +232,61 @@ export default function HomeScreen() {
       {/* STORIES AREA */}
         <View style={styles.storiesContainer}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={styles.storyItem}>
+            <TouchableOpacity 
+              style={styles.storyItem}
+              onPress={() => router.push('/(tabs)/profile-info')}
+              activeOpacity={0.8}
+            >
               <View style={styles.storyAvatarBorderActive}>
                 <Image source={require('../../../assets/images/Avatar_Me.png')} style={styles.storyAvatarActive} resizeMode="contain" />
               </View>
               <Text style={styles.storyNameActive}>Me</Text>
-            </View>
-            <View style={styles.storyItem}>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={styles.storyItem}
+              onPress={() => router.push({ pathname: '/(tabs)/friend-profile', params: { id: 'alex' } })}
+              activeOpacity={0.8}
+            >
               <Image source={require('../../../assets/images/Avatar_AlexKim.png')} style={styles.storyAvatar} resizeMode="contain" />
               <Text style={styles.storyName}>Alex Kim</Text>
-            </View>
-            <View style={styles.storyItem}>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={styles.storyItem}
+              onPress={() => router.push({ pathname: '/(tabs)/friend-profile', params: { id: '4' } })}
+              activeOpacity={0.8}
+            >
               <Image source={require('../../../assets/images/Avatar_MinhTran.png')} style={styles.storyAvatar} resizeMode="contain" />
               <Text style={styles.storyName}>Minh Tran</Text>
-            </View>
-            <View style={styles.storyItem}>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={styles.storyItem}
+              onPress={() => router.push({ pathname: '/(tabs)/friend-profile', params: { id: 'sora' } })}
+              activeOpacity={0.8}
+            >
               <Image source={require('../../../assets/images/Avatar_SoraPark.png')} style={styles.storyAvatar} resizeMode="contain" />
               <Text style={styles.storyName}>Sora Park</Text>
-            </View>
-            <View style={styles.storyItem}>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={styles.storyItem}
+              onPress={() => router.push({ pathname: '/(tabs)/friend-profile', params: { id: 'yuki' } })}
+              activeOpacity={0.8}
+            >
               <Image source={require('../../../assets/images/Avatar_YukiTanaka.png')} style={styles.storyAvatar} resizeMode="contain" />
               <Text style={styles.storyName}>Yuki Tanaka</Text>
-            </View>
+            </TouchableOpacity>
             
-            <TouchableOpacity style={{
-              width: rs(60), height: rs(60), borderRadius: rs(30),
-              backgroundColor: '#ffb703', justifyContent: 'center', alignItems: 'center'
-            }}>
+            <TouchableOpacity 
+              style={{
+                width: rs(60), height: rs(60), borderRadius: rs(30),
+                backgroundColor: '#ffb703', justifyContent: 'center', alignItems: 'center'
+              }}
+              onPress={() => router.push('/(tabs)/up-post')}
+              activeOpacity={0.8}
+            >
               <Ionicons name="add" size={rs(32)} color="#fff" />
             </TouchableOpacity>
           </ScrollView>
@@ -280,22 +313,66 @@ export default function HomeScreen() {
 
         
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+        {openPostMenuId !== null && (
+          <TouchableWithoutFeedback onPress={() => setOpenPostMenuId(null)}>
+            <View style={[StyleSheet.absoluteFill, { zIndex: 5 }]} />
+          </TouchableWithoutFeedback>
+        )}
         <View style={styles.feedContainer}>
           {/* Post 1: Jake Miller */}
-          <View style={styles.postCard}>
+          <View style={[styles.postCard, openPostMenuId === 'post1' && { zIndex: 10 }]}>
             <View style={styles.postHeader}>
-              <Image source={require('../../../assets/images/avatar_v3_Sunny.png')} style={styles.postAvatar} resizeMode="contain" />
-              <View style={styles.postMeta}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Text style={styles.postAuthor}>Jake Miller</Text>
-                  <Ionicons name="checkmark-circle" size={rs(16)} color="#ffb703" style={{marginLeft: rs(4)}} />
+              <TouchableOpacity 
+                style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}
+                onPress={() => router.push({ pathname: '/(tabs)/friend-profile', params: { id: '2' } })}
+                activeOpacity={0.8}
+              >
+                <Image source={require('../../../assets/images/avatar_v3_Sunny.png')} style={styles.postAvatar} resizeMode="contain" />
+                <View style={styles.postMeta}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text style={styles.postAuthor}>Jake Miller</Text>
+                    <Ionicons name="checkmark-circle" size={rs(16)} color="#ffb703" style={{marginLeft: rs(4)}} />
+                  </View>
+                  <Text style={styles.postTime}>3h ago • Bangalore, India</Text>
                 </View>
-                <Text style={styles.postTime}>3h ago • Bangalore, India</Text>
-              </View>
-              <TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => togglePostMenu('post1')} activeOpacity={0.7}>
                 <Ionicons name="ellipsis-vertical" size={rs(20)} color="#ffb703" />
               </TouchableOpacity>
             </View>
+
+            {/* Dropdown Menu Post 1 */}
+            {openPostMenuId === 'post1' && (
+              <View style={styles.postDropdownMenu}>
+                <TouchableOpacity 
+                  style={styles.postDropdownItem} 
+                  onPress={() => {
+                    setOpenPostMenuId(null);
+                    router.push('/(tabs)/edit-post?postId=1' as any);
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="chatbubble-outline" size={rs(18)} color="#111827" style={{ textShadowColor: '#111827', textShadowRadius: 0.5, textShadowOffset: { width: rs(0.5), height: rs(0.5) } }} />
+                  <Text style={styles.postDropdownText}>Edit post</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={styles.postDropdownItem}
+                  onPress={() => setOpenPostMenuId(null)}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="ban-outline" size={rs(20)} color="#ef4444" style={{ textShadowColor: '#ef4444', textShadowRadius: 0.5, textShadowOffset: { width: rs(0.5), height: rs(0.5) } }} />
+                  <Text style={[styles.postDropdownText, { color: '#ef4444' }]}>Delete</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={styles.postDropdownItem}
+                  onPress={() => setOpenPostMenuId(null)}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="flag-outline" size={rs(20)} color="#111827" style={{ textShadowColor: '#111827', textShadowRadius: 0.5, textShadowOffset: { width: rs(0.5), height: rs(0.5) } }} />
+                  <Text style={styles.postDropdownText}>Pin</Text>
+                </TouchableOpacity>
+              </View>
+            )}
             
             <Text style={styles.postText}>Looking for fellow mystery lovers 🔍 Anyone here a fan of Agatha Christie?</Text>
             
@@ -325,20 +402,59 @@ export default function HomeScreen() {
           </View>
           
           {/* Post 2: Priya Sharma */}
-          <View style={styles.postCard}>
+          <View style={[styles.postCard, openPostMenuId === 'post2' && { zIndex: 10 }]}>
             <View style={styles.postHeader}>
-              <Image source={require('../../../assets/images/avatar_v3_Honey.png')} style={styles.postAvatar} resizeMode="contain" />
-              <View style={styles.postMeta}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Text style={styles.postAuthor}>Priya Sharma</Text>
-                  <Ionicons name="checkmark-circle" size={rs(16)} color="#ffb703" style={{marginLeft: rs(4)}} />
+              <TouchableOpacity 
+                style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}
+                onPress={() => router.push({ pathname: '/(tabs)/friend-profile', params: { id: '1' } })}
+                activeOpacity={0.8}
+              >
+                <Image source={require('../../../assets/images/avatar_v3_Honey.png')} style={styles.postAvatar} resizeMode="contain" />
+                <View style={styles.postMeta}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text style={styles.postAuthor}>Priya Sharma</Text>
+                    <Ionicons name="checkmark-circle" size={rs(16)} color="#ffb703" style={{marginLeft: rs(4)}} />
+                  </View>
+                  <Text style={styles.postTime}>5h ago • Bangalore, India</Text>
                 </View>
-                <Text style={styles.postTime}>5h ago • Bangalore, India</Text>
-              </View>
-              <TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => togglePostMenu('post2')} activeOpacity={0.7}>
                 <Ionicons name="ellipsis-vertical" size={rs(20)} color="#ffb703" />
               </TouchableOpacity>
             </View>
+
+            {/* Dropdown Menu Post 2 */}
+            {openPostMenuId === 'post2' && (
+              <View style={styles.postDropdownMenu}>
+                <TouchableOpacity 
+                  style={styles.postDropdownItem} 
+                  onPress={() => {
+                    setOpenPostMenuId(null);
+                    router.push('/(tabs)/edit-post?postId=2' as any);
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="chatbubble-outline" size={rs(18)} color="#111827" style={{ textShadowColor: '#111827', textShadowRadius: 0.5, textShadowOffset: { width: rs(0.5), height: rs(0.5) } }} />
+                  <Text style={styles.postDropdownText}>Edit post</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={styles.postDropdownItem}
+                  onPress={() => setOpenPostMenuId(null)}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="ban-outline" size={rs(20)} color="#ef4444" style={{ textShadowColor: '#ef4444', textShadowRadius: 0.5, textShadowOffset: { width: rs(0.5), height: rs(0.5) } }} />
+                  <Text style={[styles.postDropdownText, { color: '#ef4444' }]}>Delete</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={styles.postDropdownItem}
+                  onPress={() => setOpenPostMenuId(null)}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="flag-outline" size={rs(20)} color="#111827" style={{ textShadowColor: '#111827', textShadowRadius: 0.5, textShadowOffset: { width: rs(0.5), height: rs(0.5) } }} />
+                  <Text style={styles.postDropdownText}>Pin</Text>
+                </TouchableOpacity>
+              </View>
+            )}
             
             <Text style={styles.postText}>Found a magical little spot today ✨ Some places just feel like home...</Text>
             
@@ -356,7 +472,7 @@ export default function HomeScreen() {
               </View>
               
               <FeedPostBadges initialActive="public" />
-                <SaveButton />
+              <SaveButton />
             </View>
 
             <View style={styles.commentInputContainer}>
@@ -365,24 +481,63 @@ export default function HomeScreen() {
                 <Ionicons name="send" size={rs(14)} color="#ffb703" />
               </TouchableOpacity>
             </View>
-            </View>
+          </View>
 
-            {/* Post 3: Minh Tran */}
-          <View style={styles.postCard}>
+          {/* Post 3: Minh Tran */}
+          <View style={[styles.postCard, openPostMenuId === 'post3' && { zIndex: 10 }]}>
             <View style={styles.postHeader}>
-              <Image source={require('../../../assets/images/Avatar_MinhTran.png')} style={styles.postAvatar} resizeMode="contain" />
-              <View style={styles.postMeta}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Text style={styles.postAuthor}>Minh Tran</Text>
-                  <Text style={{fontSize: rs(14), marginLeft: rs(4)}}>🇻🇳</Text>
-                  <Ionicons name="checkmark-circle" size={rs(16)} color="#ffb703" style={{marginLeft: rs(4)}} />
+              <TouchableOpacity 
+                style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}
+                onPress={() => router.push({ pathname: '/(tabs)/friend-profile', params: { id: '4' } })}
+                activeOpacity={0.8}
+              >
+                <Image source={require('../../../assets/images/Avatar_MinhTran.png')} style={styles.postAvatar} resizeMode="contain" />
+                <View style={styles.postMeta}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text style={styles.postAuthor}>Minh Tran</Text>
+                    <Text style={{fontSize: rs(14), marginLeft: rs(4)}}>🇻🇳</Text>
+                    <Ionicons name="checkmark-circle" size={rs(16)} color="#ffb703" style={{marginLeft: rs(4)}} />
+                  </View>
+                  <Text style={styles.postTime}>20/8/2026 • Ho Chi Minh City, Vietnam</Text>
                 </View>
-                <Text style={styles.postTime}>20/8/2026 • Ho Chi Minh City, Vietnam</Text>
-              </View>
-              <TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => togglePostMenu('post3')} activeOpacity={0.7}>
                 <Ionicons name="ellipsis-vertical" size={rs(20)} color="#ffb703" />
               </TouchableOpacity>
             </View>
+
+            {/* Dropdown Menu Post 3 */}
+            {openPostMenuId === 'post3' && (
+              <View style={styles.postDropdownMenu}>
+                <TouchableOpacity 
+                  style={styles.postDropdownItem} 
+                  onPress={() => {
+                    setOpenPostMenuId(null);
+                    router.push('/(tabs)/edit-post?postId=3' as any);
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="chatbubble-outline" size={rs(18)} color="#111827" style={{ textShadowColor: '#111827', textShadowRadius: 0.5, textShadowOffset: { width: rs(0.5), height: rs(0.5) } }} />
+                  <Text style={styles.postDropdownText}>Edit post</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={styles.postDropdownItem}
+                  onPress={() => setOpenPostMenuId(null)}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="ban-outline" size={rs(20)} color="#ef4444" style={{ textShadowColor: '#ef4444', textShadowRadius: 0.5, textShadowOffset: { width: rs(0.5), height: rs(0.5) } }} />
+                  <Text style={[styles.postDropdownText, { color: '#ef4444' }]}>Delete</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={styles.postDropdownItem}
+                  onPress={() => setOpenPostMenuId(null)}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="flag-outline" size={rs(20)} color="#111827" style={{ textShadowColor: '#111827', textShadowRadius: 0.5, textShadowOffset: { width: rs(0.5), height: rs(0.5) } }} />
+                  <Text style={styles.postDropdownText}>Pin</Text>
+                </TouchableOpacity>
+              </View>
+            )}
             
             <Text style={styles.postText}>This morning's pho was so delicious! 🍜 Nothing beats a hot bowl of pho to start a new day in Saigon...</Text>
             
@@ -426,10 +581,6 @@ export default function HomeScreen() {
 
           </ScrollView>
 
-      {/* Floating Bee AI */}
-      <AISup />
-
-      
       <CommentModal visible={isCommentModalVisible} onClose={closeCommentModal} />
 
       {/* Share Post Modal */}
@@ -500,6 +651,9 @@ export default function HomeScreen() {
 
       {/* TabBar Coded UI */}
       <TabBarMenu activeTab="home" />
+
+      {/* Floating Bee AI (TOPMOST LAYER) */}
+      <AISup />
     </View>
   );
 }
@@ -920,5 +1074,34 @@ const styles = StyleSheet.create({
     fontSize: rs(24),
     color: '#fff',
     lineHeight: rs(24),
+  },
+  postDropdownMenu: {
+    position: 'absolute',
+    top: rs(50),
+    right: rs(15),
+    backgroundColor: '#fff',
+    borderRadius: rs(16),
+    paddingVertical: rs(10),
+    paddingHorizontal: rs(16),
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: rs(4) },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 8,
+    zIndex: 20,
+    minWidth: 140,
+  },
+  postDropdownItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: rs(10),
+  },
+  postDropdownText: {
+    fontFamily: 'Dongle_700Bold',
+    fontSize: rs(28),
+    color: '#111827',
+    marginLeft: rs(8),
+    lineHeight: rs(28),
+    marginTop: rs(4),
   },
 });
